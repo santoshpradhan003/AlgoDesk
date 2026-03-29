@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>AlgoDESK v4 — Institutional Algo Trading System</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -300,33 +299,33 @@ kbd{background:var(--surface);border:1px solid var(--border2);border-radius:4px;
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <nav id="sidebar">
   <div class="nav-section">Core</div>
-  <button class="nav-btn active" data-page="dashboard" onclick="navigate('dashboard')"><span class="nav-icon">◈</span><span class="nav-label">Dashboard</span></button>
-  <button class="nav-btn" data-page="strategies" onclick="navigate('strategies')"><span class="nav-icon">⬡</span><span class="nav-label">Strategies</span></button>
-  <button class="nav-btn" data-page="marketdata" onclick="navigate('marketdata')"><span class="nav-icon">📡</span><span class="nav-label">Market Data</span></button>
-  <button class="nav-btn" data-page="signals" onclick="navigate('signals')"><span class="nav-icon">🧠</span><span class="nav-label">AI Signals</span><span class="nav-badge" id="sig-badge" style="display:none"></span></button>
+  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">◈</span><span class="nav-label">Dashboard</span></button>
+  <button class="nav-btn" data-page="strategies"><span class="nav-icon">⬡</span><span class="nav-label">Strategies</span></button>
+  <button class="nav-btn" data-page="marketdata"><span class="nav-icon">📡</span><span class="nav-label">Market Data</span></button>
+  <button class="nav-btn" data-page="signals"><span class="nav-icon">🧠</span><span class="nav-label">AI Signals</span><span class="nav-badge" id="sig-badge" style="display:none"></span></button>
 
   <div class="nav-section">Analysis</div>
-  <button class="nav-btn" data-page="screener" onclick="navigate('screener')"><span class="nav-icon">⊡</span><span class="nav-label">Screener</span></button>
-  <button class="nav-btn" data-page="watchlist" onclick="navigate('watchlist')"><span class="nav-icon">◉</span><span class="nav-label">Watchlist</span></button>
-  <button class="nav-btn" data-page="backtest" onclick="navigate('backtest')"><span class="nav-icon">⏮</span><span class="nav-label">Backtest</span></button>
-  <button class="nav-btn" data-page="analytics" onclick="navigate('analytics')"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></button>
-  <button class="nav-btn" data-page="journal" onclick="navigate('journal')"><span class="nav-icon">📓</span><span class="nav-label">Trade Journal</span></button>
+  <button class="nav-btn" data-page="screener"><span class="nav-icon">⊡</span><span class="nav-label">Screener</span></button>
+  <button class="nav-btn" data-page="watchlist"><span class="nav-icon">◉</span><span class="nav-label">Watchlist</span></button>
+  <button class="nav-btn" data-page="backtest"><span class="nav-icon">⏮</span><span class="nav-label">Backtest</span></button>
+  <button class="nav-btn" data-page="analytics"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></button>
+  <button class="nav-btn" data-page="journal"><span class="nav-icon">📓</span><span class="nav-label">Trade Journal</span></button>
 
   <div class="nav-section">Trading</div>
-  <button class="nav-btn" data-page="execution" onclick="navigate('execution')"><span class="nav-icon">⚡</span><span class="nav-label">Execution</span></button>
-  <button class="nav-btn" data-page="portfolio" onclick="navigate('portfolio')"><span class="nav-icon">◐</span><span class="nav-label">Portfolio</span></button>
-  <button class="nav-btn" data-page="rebalance" onclick="navigate('rebalance')"><span class="nav-icon">⚖</span><span class="nav-label">Rebalancer</span></button>
-  <button class="nav-btn" data-page="history" onclick="navigate('history')"><span class="nav-icon">≡</span><span class="nav-label">Trade History</span></button>
+  <button class="nav-btn" data-page="execution"><span class="nav-icon">⚡</span><span class="nav-label">Execution</span></button>
+  <button class="nav-btn" data-page="portfolio"><span class="nav-icon">◐</span><span class="nav-label">Portfolio</span></button>
+  <button class="nav-btn" data-page="rebalance"><span class="nav-icon">⚖</span><span class="nav-label">Rebalancer</span></button>
+  <button class="nav-btn" data-page="history"><span class="nav-icon">≡</span><span class="nav-label">Trade History</span></button>
 
   <div class="nav-section">Risk & Ops</div>
-  <button class="nav-btn" data-page="risk" onclick="navigate('risk')"><span class="nav-icon">🛡</span><span class="nav-label">Risk Manager</span></button>
-  <button class="nav-btn" data-page="alerts" onclick="navigate('alerts')"><span class="nav-icon">🔔</span><span class="nav-label">Alerts</span></button>
-  <button class="nav-btn" data-page="health" onclick="navigate('health')"><span class="nav-icon">💚</span><span class="nav-label">System Health</span></button>
+  <button class="nav-btn" data-page="risk"><span class="nav-icon">🛡</span><span class="nav-label">Risk Manager</span></button>
+  <button class="nav-btn" data-page="alerts"><span class="nav-icon">🔔</span><span class="nav-label">Alerts</span></button>
+  <button class="nav-btn" data-page="health"><span class="nav-icon">💚</span><span class="nav-label">System Health</span></button>
 
   <div class="nav-section">System</div>
-  <button class="nav-btn" data-page="connect" onclick="navigate('connect')"><span class="nav-icon">⊕</span><span class="nav-label">Connect</span></button>
-  <button class="nav-btn" data-page="settings" onclick="navigate('settings')"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></button>
-  <button class="nav-btn" data-page="logs" onclick="navigate('logs')"><span class="nav-icon">▸</span><span class="nav-label">Logs</span></button>
+  <button class="nav-btn" data-page="connect"><span class="nav-icon">⊕</span><span class="nav-label">Connect</span></button>
+  <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></button>
+  <button class="nav-btn" data-page="logs"><span class="nav-icon">▸</span><span class="nav-label">Logs</span></button>
 
   <div class="sidebar-footer">
     <button id="sidebar-toggle-btn" onclick="toggleBot()">▶ START</button>
@@ -1041,11 +1040,9 @@ const A={
   tradeFilter:"ALL",pinSet:false,pinUnlocked:false,pinHash:null,
   riskCfg:{capital:500000,maxDaily:10000,maxDD:10,maxPos:10,maxSector:30,perTrade:1,slType:"Fixed %",slPct:2},
   tgCfg:{token:"",chatId:""},
-  dhanAuth:{clientID:"",token:"",authenticated:false},
   allLogs:[],logFilter:"",charts:{},
   startTime:Date.now(),sidebarCollapsed:false,theme:"dark",
   notifOpen:false,unreadNotifs:0,
-  connectionStatus:true,apiCallStats:{success:0,failed:0,retried:0},
 };
 
 /* ═══════════════════════════════════════════════════════════
@@ -1062,93 +1059,9 @@ const STRATS=[
 const TC={Trend:"#00ffa3","Counter-trend":"#a78bfa",Gap:"#f59e0b",Breakout:"#00d4ff",Macro:"#ec4899",Event:"#fb923c",Quant:"#22c55e"};
 
 /* ═══════════════════════════════════════════════════════════
-   STORAGE - IndexedDB + localStorage fallback
+   STORAGE
 ═══════════════════════════════════════════════════════════ */
-let db;
-function initIndexedDB(){
-  return new Promise((resolve)=>{
-    if(!window.indexedDB){console.warn("IndexedDB not supported, using localStorage");resolve(false);return;}
-    const req=indexedDB.open("AlgoDESK_v4",1);
-    req.onerror=()=>{console.warn("IndexedDB open failed");resolve(false);};
-    req.onsuccess=()=>{db=req.result;resolve(true);};
-    req.onupgradeneeded=(e)=>{
-      const d=e.target.result;
-      ["trades","portfolio","watchlist","journals","orders","alerts","customStrats","notifications","notifications","backups"].forEach(store=>{
-        if(!d.objectStoreNames.contains(store))d.createObjectStore(store,{keyPath:"id"});
-      });
-    };
-  });
-}
-
-const ls={
-  get:async k=>{
-    if(db)try{return new Promise((resolve,reject)=>{const tx=db.transaction(k,"readonly");const store=tx.objectStore(k);const req=store.getAll();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
-    }catch{return localStorage.getItem(k)?JSON.parse(localStorage.getItem(k)):null;}
-    return localStorage.getItem(k)?JSON.parse(localStorage.getItem(k)):null;
-  },
-  set:async(k,v)=>{
-    if(db)try{return new Promise((resolve)=>{const tx=db.transaction(k,"readwrite");const store=tx.objectStore(k);store.clear();const req=store.add({id:k,data:v,timestamp:Date.now()});req.onsuccess=()=>resolve();});
-    }catch{localStorage.setItem(k,JSON.stringify(v));}
-    localStorage.setItem(k,JSON.stringify(v));
-  },
-  remove:async k=>{
-    if(db)try{return new Promise((resolve)=>{const tx=db.transaction(k,"readwrite");const store=tx.objectStore(k);store.clear();resolve();});
-    }catch{localStorage.removeItem(k);}
-    localStorage.removeItem(k);
-  }
-};
-
-/* CIRCUIT BREAKER for API calls */
-class CircuitBreaker{
-  constructor(threshold=5,timeout=60000){this.failures=0;this.threshold=threshold;this.timeout=timeout;this.state="CLOSED";this.lastFailTime=0;}
-  async call(fn,fallback=null){
-    if(this.state==="OPEN"){
-      if(Date.now()-this.lastFailTime>this.timeout){this.state="HALF_OPEN";this.failures=0;}
-      else if(fallback)return fallback();
-      else throw new Error("Circuit OPEN - API temporarily unavailable");
-    }
-    try{
-      const result=await fn();
-      if(this.state==="HALF_OPEN")this.state="CLOSED";
-      this.failures=0;
-      return result;
-    }catch(e){
-      this.failures++;this.lastFailTime=Date.now();
-      if(this.failures>=this.threshold){this.state="OPEN";addNotif("ALERT","⚠ API circuit opened - using fallback","var(--warn)");}
-      throw e;
-    }
-  }
-}
-const apiBreakerAI=new CircuitBreaker(5,120000);
-const apiBreakerTG=new CircuitBreaker(3,60000);
-
-/* TRANSACTION ATOMICITY HELPER */
-class Transaction{
-  constructor(){this.ops=[];this.committed=false;}
-  add(key,value){if(!this.committed)this.ops.push({key,value});return this;}
-  async commit(){
-    if(this.committed)throw new Error("Transaction already committed");
-    try{
-      for(const op of this.ops){
-        localStorage.setItem(op.key,JSON.stringify(op.value));
-        if(db)await ls.set(op.key,op.value).catch(()=>{});
-      }
-      this.committed=true;
-      return true;
-    }catch(e){
-      console.error("Transaction failed:",e);
-      return false;
-    }
-  }
-}
-
-function startTransaction(){return new Transaction();}
-
-/* SAFE DATA SAVE */
-async function saveData(key,value){
-  localStorage.setItem(key,JSON.stringify(value));
-  if(db)try{await ls.set(key,value);}catch(e){console.warn("IndexedDB save failed:",e);}
-}
+const ls={get:k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch{return null}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
 
 /* ═══════════════════════════════════════════════════════════
    BOOT
@@ -1160,7 +1073,6 @@ function boot(){
   A.notifications=ls.get("v4_notifs")||[];A.rebalTargets=ls.get("v4_rebal")||defaultRebalTargets();
   A.pinSet=!!ls.get("v4_pinSet");A.pinHash=ls.get("v4_pinHash");
   A.riskCfg=ls.get("v4_rcfg")||A.riskCfg;A.tgCfg=ls.get("v4_tgcfg")||A.tgCfg;
-  A.dhanAuth=ls.get("v4_dhan_auth")||A.dhanAuth;
   A.theme=ls.get("v4_theme")||"dark";
 
   el("th-date").valueAsDate=new Date();el("jn-date").valueAsDate=new Date();
@@ -1169,21 +1081,13 @@ function boot(){
   updateDashboard();updateBotUI();loadRiskCfg();loadTgCfg();loadSettings();
   setTheme(A.theme,true);refreshHealth();renderRunnerCards();renderVersionList();
 
-  appendChat("assistant","AlgoDESK v4 online with enhanced resilience.\n\nFeatures: Enhanced error recovery · IndexedDB persistence · DHAN API integration · Auto-backup · Input validation · Connection monitoring.\n\nConnect your broker for live data. Paper mode active by default.");
-  addLog("INFO","AlgoDESK v4 initialized with resilience features.");
+  appendChat("assistant","AlgoDESK v4 online.\n\nFeatures: Multi-strategy runner · AI Signals · Sentiment · Candlestick chart · Trade Journal · Rebalancer · System Health · Notifications · Keyboard shortcuts.\n\nConnect your broker for live data. Paper mode active by default.");
+  addLog("INFO","AlgoDESK v4 initialized — full institutional system ready.");
+  addLog("INFO","Multi-strategy runner, AI signals, rebalancer, journal, health monitor loaded.");
   addLog("WARN","Bot STOPPED. Paper mode active. Press START or [K] to begin.");
 
   document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
   renderMarketMovers();drawOHLC();renderCorpActions();renderNotifPanel();updateNotifBadge();
-  
-  // Initialize resilience features
-  try{
-    initConnectionMonitor();
-    setInterval(backupData,300000); // Auto-backup every 5 min
-    addLog("SUCCESS","✅ Resilience monitoring activated");
-  }catch(e){
-    console.error("Resilience init error:",e);
-  }
 }
 
 function renderAll(){renderStratGrid();renderWL();renderPortfolio();renderTrades();renderOrderBook();renderAlerts();renderJournal();renderPortfolioCharts();renderRebalBars();}
@@ -1196,7 +1100,7 @@ function navigate(page){
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
   document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
   if(page==="connect")renderConnectPage();
-  if(page==="analytics")genAnalytics();
+  if(page==="analytics"){genAnalytics();}
   if(page==="marketdata"){renderMarketMovers();drawOHLC();}
   if(page==="signals")runMLSignals();
   if(page==="health")refreshHealth();
@@ -1413,37 +1317,17 @@ function toggleRunStrategy(id){
 }
 
 function saveCustomStrat(){
-  try{
-    const name=el("sb-name").value.trim();
-    if(!name){toast("❌ Enter strategy name","var(--danger)");return;}
-    const s={id:"cust_"+Date.now(),tag:"CUSTOM",name,type:el("sb-type").value,tf:el("sb-tf").value,entry:el("sb-entry").value,exit:el("sb-exit").value,psMethod:el("sb-ps").value,sl:el("sb-sl").value,tp:el("sb-tp").value,desc:el("sb-desc").value,ind:[el("sb-entry").value,el("sb-exit").value],version:1,createdAt:new Date().toLocaleString()};
-    A.customStrats.push(s);
-    saveData("v4_cs",A.customStrats);
-    // Save version
-    A.stratVersions.push({id:s.id,name:s.name,version:1,savedAt:new Date().toLocaleString(),changes:"Initial creation"});
-    saveData("v4_sv",A.stratVersions);
-    backupData();
-    populateSel();renderStratGrid();renderVersionList();hide("strat-builder");
-    addLog("INFO",`✅ Strategy saved: ${name}`);
-    toast("✅ Strategy saved","var(--accent)");
-  }catch(e){
-    addLog("ERROR","Strategy save failed: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-  }
+  const name=el("sb-name").value.trim();if(!name){toast("Enter name","var(--warn)");return;}
+  const s={id:"cust_"+Date.now(),tag:"CUSTOM",name,type:el("sb-type").value,tf:el("sb-tf").value,entry:el("sb-entry").value,exit:el("sb-exit").value,psMethod:el("sb-ps").value,sl:el("sb-sl").value,tp:el("sb-tp").value,desc:el("sb-desc").value,ind:[el("sb-entry").value,el("sb-exit").value],version:1,createdAt:new Date().toLocaleString()};
+  A.customStrats.push(s);ls.set("v4_cs",A.customStrats);
+  // Save version
+  A.stratVersions.push({id:s.id,name:s.name,version:1,savedAt:new Date().toLocaleString(),changes:"Initial creation"});
+  ls.set("v4_sv",A.stratVersions);
+  populateSel();renderStratGrid();renderVersionList();hide("strat-builder");
+  addLog("INFO",`Custom strategy saved: ${name}`);toast("Strategy saved","var(--accent)");
 }
 
-function removeCustomStrat(i){
-  try{
-    const name=A.customStrats[i].name;
-    A.customStrats.splice(i,1);
-    saveData("v4_cs",A.customStrats);
-    backupData();
-    populateSel();renderStratGrid();
-    addLog("INFO","Strategy removed");
-  }catch(e){
-    addLog("ERROR","Strategy delete failed: "+e.message);
-  }
-}
+function removeCustomStrat(i){A.customStrats.splice(i,1);ls.set("v4_cs",A.customStrats);populateSel();renderStratGrid();}
 function toggleEl(id){const e=el(id);if(e)e.style.display=e.style.display==="none"?"block":"none";}
 
 function renderVersionList(){
@@ -1553,26 +1437,23 @@ function drawOHLC(){
    AI / ML SIGNALS
 ═══════════════════════════════════════════════════════════ */
 async function runMLSignals(){
-  el("ml-signals").innerHTML='<div class="empty" style="grid-column:1/-1">🔄 Generating AI signals…</div>';
+  el("ml-signals").innerHTML='<div class="empty" style="grid-column:1/-1">Generating AI signals…</div>';
   el("sig-badge").style.display="none";
   const prompt=`Generate 8 illustrative AI/ML trading signals for NSE stocks.
 JSON array: [{symbol,signal("BUY"|"SELL"|"HOLD"),confidence(60-94),model("LSTM"|"Random Forest"|"XGBoost"|"Transformer"),features:["RSI","Volume","EMA","Sentiment"],sector,price_target,risk_reward,reasoning}]
 Label as illustrative. No markdown.`;
   try{
-    const apiResp=await aiCall(prompt,undefined,1500,3);
-    const r=JSON.parse(apiResp.replace(/```json|```/g,"").trim());
-    if(!Array.isArray(r)||r.length===0)throw new Error("Invalid signal format");
+    const r=JSON.parse((await aiCall(prompt,undefined,1500)).replace(/```json|```/g,"").trim());
     renderMLSignals(r);
+    // Sentiment
     await fetchSentiment();
+    // Features
     renderFeaturePipeline();
     el("sig-badge").textContent=r.filter(s=>s.signal==="BUY").length;
     el("sig-badge").style.display="inline";
-    addNotif("SIGNAL",`✅ Generated ${r.length} signals (${r.filter(s=>s.signal==="BUY").length} BUY)`,"var(--accent)");
-    addLog("SIGNAL",`AI signals: ${r.filter(s=>s.signal==="BUY").length} BUY, ${r.filter(s=>s.signal==="SELL").length} SELL`);
-  }catch(e){
-    el("ml-signals").innerHTML=`<div class="empty" style="grid-column:1/-1">❌ Error: ${e.message}<br><br><button class="btn btn-p btn-sm" onclick="runMLSignals()">Retry</button></div>`;
-    addLog("ERROR","AI signals failed: "+e.message);
-  }
+    addNotif("SIGNAL",`AI generated ${r.length} signals (${r.filter(s=>s.signal==="BUY").length} BUY)`,"var(--accent)");
+    addLog("SIGNAL",`AI signals generated — ${r.filter(s=>s.signal==="BUY").length} BUY, ${r.filter(s=>s.signal==="SELL").length} SELL`);
+  }catch{el("ml-signals").innerHTML='<div class="empty" style="grid-column:1/-1">Error generating signals. Retry.</div>';}
 }
 
 function renderMLSignals(sigs){
@@ -1641,22 +1522,16 @@ function switchTab(prefix,tab,btn){
    SCREENER
 ═══════════════════════════════════════════════════════════ */
 async function runScreener(){
-  const btn=el("sc-btn");btn.disabled=true;btn.textContent="🔄 Scanning…";
+  const btn=el("sc-btn");btn.disabled=true;btn.textContent="Scanning…";
   el("sc-results").innerHTML='<div class="empty">Scanning NSE…</div>';
   const strat=el("sc-strat").value,sector=el("sc-sector").value,minC=el("sc-conf").value,sig=el("sc-sig").value;
   const prompt=`Generate 10 illustrative NSE screener results for strategy "${strat}"${sector?` in ${sector} sector`:""}.
 JSON array: [{symbol,name,sector,signal("BUY"|"WATCH"|"AVOID"),confidence(${minC}-93),reason,risk("Low"|"Medium"|"High"),potential("High"|"Medium"|"Low"),cmp,target,sl,catalyst}]
 ${sig?`Only include signal="${sig}" results.`:""} No markdown.`;
   try{
-    const apiResp=await aiCall(prompt,undefined,1200,3);
-    const r=JSON.parse(apiResp.replace(/```json|```/g,"").trim()).filter(x=>x.confidence>=parseInt(minC)&&(!sig||x.signal===sig));
-    if(!Array.isArray(r))throw new Error("Invalid response format");
+    const r=JSON.parse((await aiCall(prompt)).replace(/```json|```/g,"").trim()).filter(x=>x.confidence>=parseInt(minC)&&(!sig||x.signal===sig));
     renderScreenerResults(r);
-    addLog("INFO",`Screener found ${r.length} matches`);
-  }catch(e){
-    el("sc-results").innerHTML=`<div class="empty">❌ Error: ${e.message}<br><br><button class="btn btn-p btn-sm" onclick="runScreener()">Retry</button></div>`;
-    addLog("ERROR","Screener failed: "+e.message);
-  }
+  }catch{el("sc-results").innerHTML='<div class="empty">Error. Retry.</div>';}
   btn.disabled=false;btn.textContent="⊡ Screen";
 }
 
@@ -1688,47 +1563,9 @@ function renderScreenerResults(res){
 /* ═══════════════════════════════════════════════════════════
    WATCHLIST
 ═══════════════════════════════════════════════════════════ */
-function addToWL(r){
-  try{
-    if(!validateSymbol(r.symbol)){toast("❌ Invalid symbol","var(--danger)");return;}
-    if(A.watchlist.find(w=>w.symbol===r.symbol))return;
-    A.watchlist.push({...r,addedAt:new Date().toLocaleString()});
-    saveData("v4_wl",A.watchlist);
-    backupData();
-    renderWL();updateDashboard();runScreener();
-    addLog("INFO",`✅ ${r.symbol} added to watchlist`);
-    toast(`✅ ${r.symbol} added`,"var(--accent)");
-  }catch(e){
-    addLog("ERROR","WL add failed: "+e.message);
-  }
-}
-function addWLManual(){
-  try{
-    const sym=el("wl-in").value.trim().toUpperCase();
-    if(!sym||!validateSymbol(sym)){toast("❌ Invalid symbol","var(--danger)");return;}
-    if(A.watchlist.find(w=>w.symbol===sym)){toast("❌ Already in watchlist","var(--warn)");return;}
-    A.watchlist.push({symbol:sym,name:sym,signal:"WATCH",confidence:0,reason:"Manual",risk:"Medium",potential:"Medium",cmp:"—",addedAt:new Date().toLocaleString()});
-    saveData("v4_wl",A.watchlist);
-    backupData();
-    el("wl-in").value="";renderWL();updateDashboard();
-    addLog("INFO",`✅ ${sym} added manually`);
-    toast(`✅ ${sym} added","var(--accent)");
-  }catch(e){
-    addLog("ERROR","WL add failed: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-  }
-}
-function removeWL(sym){
-  try{
-    A.watchlist=A.watchlist.filter(w=>w.symbol!==sym);
-    saveData("v4_wl",A.watchlist);
-    backupData();
-    renderWL();updateDashboard();
-    addLog("INFO","Watchlist item removed");
-  }catch(e){
-    addLog("ERROR","WL remove failed: "+e.message);
-  }
-}
+function addToWL(r){if(A.watchlist.find(w=>w.symbol===r.symbol))return;A.watchlist.push({...r,addedAt:new Date().toLocaleString()});ls.set("v4_wl",A.watchlist);renderWL();updateDashboard();runScreener();toast(`${r.symbol} added`,"var(--accent)");}
+function addWLManual(){const sym=el("wl-in").value.trim().toUpperCase();if(!sym||A.watchlist.find(w=>w.symbol===sym))return;A.watchlist.push({symbol:sym,name:sym,signal:"WATCH",confidence:0,reason:"Manual",risk:"Medium",potential:"Medium",cmp:"—",addedAt:new Date().toLocaleString()});ls.set("v4_wl",A.watchlist);el("wl-in").value="";renderWL();updateDashboard();}
+function removeWL(sym){A.watchlist=A.watchlist.filter(w=>w.symbol!==sym);ls.set("v4_wl",A.watchlist);renderWL();updateDashboard();}
 function renderWL(){
   const c=el("wl-rows");
   if(!A.watchlist.length){c.innerHTML='<div class="empty">No stocks. Run Screener or add manually.</div>';return;}
@@ -1749,12 +1586,11 @@ function renderWL(){
    BACKTEST
 ═══════════════════════════════════════════════════════════ */
 async function runBacktest(){
-  const btn=el("bt-btn");btn.disabled=true;btn.textContent="🔄 Running…";
+  const btn=el("bt-btn");btn.disabled=true;btn.textContent="Running…";
   el("bt-out").innerHTML='<div class="empty">Running backtest…</div>';
   Object.keys(A.charts).filter(k=>k.startsWith("bt")).forEach(k=>{try{A.charts[k].destroy();}catch{}delete A.charts[k];});
-  const sym=el("bt-sym").value.trim().toUpperCase(),strat=el("bt-strat").value,per=el("bt-per").value;
+  const sym=el("bt-sym").value,strat=el("bt-strat").value,per=el("bt-per").value;
   const cap=el("bt-cap").value,slip=el("bt-slip").value,brok=el("bt-brok").value;
-  if(!sym||!cap){toast("❌ Symbol and capital required","var(--danger)");btn.disabled=false;btn.textContent="▶ Run Backtest";return;}
   const mc=el("bt-mc").checked,wf=el("bt-wf").checked,tax=el("bt-tax").checked;
   const prompt=`Illustrative backtest: strategy "${strat}" on NSE:${sym}, period ${per}, capital ₹${cap}, slippage ${slip}%, brokerage ${brok}%.
 JSON: {symbol,strategy,totalTrades,winRate,avgReturn,maxDrawdown,sharpe,sortino,cagr,profitFactor,avgHoldingDays,totalBrokerage,taxLiability,
@@ -1763,15 +1599,9 @@ ${wf?"wfResults:[4×{period,winRate,return}],":""}
 trades:[8×{date,symbol,side,qty,price,pnl}],
 note:"ILLUSTRATIVE EXAMPLE"}. No markdown.`;
   try{
-    const apiResp=await aiCall(prompt,undefined,2000,3);
-    const r=JSON.parse(apiResp.replace(/```json|```/g,"").trim());
-    if(!r.winRate)throw new Error("Invalid backtest results");
+    const r=JSON.parse((await aiCall(prompt,undefined,2000)).replace(/```json|```/g,"").trim());
     renderBTResult(r,mc,wf,tax);
-    addLog("INFO",`Backtest complete: ${r.totalTrades} trades, ${r.winRate}% WR, ${r.cagr}% CAGR`);
-  }catch(e){
-    el("bt-out").innerHTML=`<div class="empty">❌ Error: ${e.message}<br><br><button class="btn btn-p btn-sm" onclick="runBacktest()">Retry</button></div>`;
-    addLog("ERROR","Backtest failed: "+e.message);
-  }
+  }catch(e){el("bt-out").innerHTML=`<div class="empty">Error: ${e.message}. Retry.</div>`;}
   btn.disabled=false;btn.textContent="▶ Run Backtest";
 }
 
@@ -1878,34 +1708,14 @@ function renderTaxSummary(){
    TRADE JOURNAL
 ═══════════════════════════════════════════════════════════ */
 function saveJournal(){
-  try{
-    const sym=el("jn-sym").value.trim().toUpperCase();
-    if(!sym||!validateSymbol(sym)){toast("❌ Invalid symbol","var(--danger)");return;}
-    A.journals.unshift({id:Date.now(),date:el("jn-date").value,symbol:sym,type:el("jn-type").value,mood:el("jn-mood").value,pnl:parseFloat(el("jn-pnl").value)||0,strategy:el("jn-strat").value,setup:el("jn-setup").value,lesson:el("jn-lesson").value});
-    saveData("v4_jn",A.journals);
-    backupData();
-    ["jn-sym","jn-pnl","jn-setup","jn-lesson"].forEach(id=>el(id).value="");
-    hide("journal-form");renderJournal();
-    addLog("INFO","✅ Journal entry saved");
-    toast("✅ Journal entry saved","var(--accent)");
-  }catch(e){
-    addLog("ERROR","Journal save failed: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-  }
+  const sym=el("jn-sym").value.trim().toUpperCase();if(!sym){toast("Enter symbol","var(--warn)");return;}
+  A.journals.unshift({id:Date.now(),date:el("jn-date").value,symbol:sym,type:el("jn-type").value,mood:el("jn-mood").value,pnl:parseFloat(el("jn-pnl").value)||0,strategy:el("jn-strat").value,setup:el("jn-setup").value,lesson:el("jn-lesson").value});
+  ls.set("v4_jn",A.journals);
+  ["jn-sym","jn-pnl","jn-setup","jn-lesson"].forEach(id=>el(id).value="");
+  hide("journal-form");renderJournal();toast("Journal entry saved","var(--accent)");
 }
 
-function removeJournal(id){
-  try{
-    A.journals=A.journals.filter(j=>j.id!==id);
-    saveData("v4_jn",A.journals);
-    backupData();
-    renderJournal();
-    addLog("INFO","Journal entry removed");
-  }catch(e){
-    addLog("ERROR","Journal delete failed: "+e.message);
-    toast("❌ Delete failed","var(--danger)");
-  }
-}
+function removeJournal(id){A.journals=A.journals.filter(j=>j.id!==id);ls.set("v4_jn",A.journals);renderJournal();}
 
 function renderJournal(){
   const c=el("journal-list");
@@ -1924,46 +1734,16 @@ function renderJournal(){
    EXECUTION
 ═══════════════════════════════════════════════════════════ */
 function placeOrder(){
-  try{
-    const sym=el("ex-sym").value.trim().toUpperCase(),qtyStr=el("ex-qty").value.trim(),priceStr=el("ex-price").value.trim();
-    const sl=el("ex-sl").value.trim(),tgt=el("ex-tgt").value.trim();
-    
-    // Validate inputs
-    if(!validateSymbol(sym)){toast("❌ Invalid symbol","var(--danger)");return;}
-    if(!qtyStr||!validateQuantity(qtyStr)){toast("❌ Invalid quantity","var(--danger)");return;}
-    if(priceStr&&!validatePrice(priceStr)){toast("❌ Invalid price","var(--danger)");return;}
-    if(sl&&!validatePrice(sl)){toast("❌ Invalid SL","var(--danger)");return;}
-    if(tgt&&!validatePrice(tgt)){toast("❌ Invalid target","var(--danger)");return;}
-    
-    const qty=parseInt(qtyStr),price=priceStr?parseFloat(priceStr):0;
-    const orderValue=qty*(price||2000);
-    const inv=A.portfolio.reduce((s,p)=>s+p.qty*p.avgCost,0);
-    if(inv+orderValue>A.riskCfg.capital*1.5){toast("⚠ Order exceeds capital","var(--warn)");return;}
-    
-    const side=el("ex-side").value,orderType=el("ex-type").value;
-    
-    // If DHAN connected, use DHAN API
-    if(A.broker==="dhan"&&A.connected&&!A.paperMode){
-      dhanPlaceOrder(sym,qty,price,orderType==="LIMIT"?"LIMIT":"MARKET",side);
-      el("ex-sym").value=el("ex-qty").value=el("ex-price").value=el("ex-sl").value=el("ex-tgt").value="";
-      return;
-    }
-    
-    // Paper/simulation mode
-    const order={id:Date.now(),symbol:sym,side,type:orderType,qty,price,sl:sl||null,target:tgt||null,product:el("ex-prod").value,paper:A.paperMode,status:"FILLED",time:new Date().toLocaleTimeString(),value:orderValue};
-    A.orders.unshift(order);
-    saveData("v4_ord",A.orders);
-    backupData();
-    renderOrderBook();
-    addLog("TRADE",`${A.paperMode?"[PAPER]":""} ${order.side} ${qty}×${sym} @ ${price||"MKT"}`);
-    sendTg(`${A.paperMode?"📋 PAPER":"⚡ LIVE"} ${order.side} ${qty}×${sym}`);
-    addNotif("TRADE",`${order.side} ${qty}×${sym}`,order.side==="BUY"?"var(--accent)":"var(--danger)");
-    toast(`✅ ${order.side} ${qty}×${sym}`,order.side==="BUY"?"var(--accent)":"var(--danger)");
-    el("ex-sym").value=el("ex-qty").value=el("ex-price").value=el("ex-sl").value=el("ex-tgt").value="";
-  }catch(e){
-    addLog("ERROR","Order: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-  }
+  const sym=el("ex-sym").value.trim().toUpperCase(),qty=parseFloat(el("ex-qty").value);
+  if(!sym||!qty){toast("Symbol and Qty required","var(--warn)");return;}
+  const price=parseFloat(el("ex-price").value)||0;
+  const order={id:Date.now(),symbol:sym,side:el("ex-side").value,type:el("ex-type").value,qty,price,sl:el("ex-sl").value,target:el("ex-tgt").value,product:el("ex-prod").value,paper:A.paperMode,status:"FILLED",time:new Date().toLocaleTimeString(),value:qty*(price||2000)};
+  A.orders.unshift(order);ls.set("v4_ord",A.orders);renderOrderBook();
+  addLog("TRADE",`${A.paperMode?"[PAPER]":""} ${order.side} ${qty}×${sym} @ ${price||"MKT"} | ${order.type} | ${order.product}`);
+  sendTg(`${A.paperMode?"📋 PAPER":"⚡ LIVE"} ${order.side} ${qty}×${sym} @ ₹${price||"MKT"}`);
+  addNotif("TRADE",`${A.paperMode?"[P]":""} ${order.side} ${qty}×${sym}`,order.side==="BUY"?"var(--accent)":"var(--danger)");
+  toast(`${A.paperMode?"[PAPER] ":""}${order.side} ${qty}×${sym}`,order.side==="BUY"?"var(--accent)":"var(--danger)");
+  el("ex-sym").value=el("ex-qty").value=el("ex-price").value=el("ex-sl").value=el("ex-tgt").value="";
 }
 
 function renderOrderBook(){
@@ -1999,23 +1779,14 @@ function calcPS(){
 ═══════════════════════════════════════════════════════════ */
 function addPosition(){
   const sym=el("pf-sym").value.trim().toUpperCase(),qty=parseFloat(el("pf-qty").value),cost=parseFloat(el("pf-cost").value);
-  if(!sym||!qty||!cost){toast("❌ Fill symbol, qty, cost","var(--warn)");return;}
-  if(!validateSymbol(sym)){toast("❌ Invalid symbol","var(--danger)");return;}
+  if(!sym||!qty||!cost){toast("Fill symbol, qty, cost","var(--warn)");return;}
   A.portfolio.push({id:Date.now(),symbol:sym,qty,avgCost:cost,type:el("pf-type").value,strategy:el("pf-strat").value,sl:el("pf-sl").value||null,tp:el("pf-tp").value||null,sector:el("pf-sector").value,addedAt:new Date().toLocaleString()});
-  saveData("v4_pf",A.portfolio);
-  backupData();
+  ls.set("v4_pf",A.portfolio);
   ["pf-sym","pf-qty","pf-cost","pf-sl","pf-tp"].forEach(id=>el(id).value="");
   hide("pf-form");renderPortfolio();renderPortfolioCharts();updateDashboard();
-  addLog("INFO",`✅ Position added: ${qty}×${sym}`);
-  toast(`✅ ${qty}×${sym} added`,"var(--accent)");
+  toast(`${sym} added`,"var(--accent)");
 }
-function removePos(id){
-  A.portfolio=A.portfolio.filter(p=>p.id!==id);
-  saveData("v4_pf",A.portfolio);
-  backupData();
-  renderPortfolio();renderPortfolioCharts();updateDashboard();
-  addLog("INFO","Position removed");
-}
+function removePos(id){A.portfolio=A.portfolio.filter(p=>p.id!==id);ls.set("v4_pf",A.portfolio);renderPortfolio();renderPortfolioCharts();updateDashboard();}
 function renderPortfolio(){
   const inv=A.portfolio.reduce((s,p)=>s+p.qty*p.avgCost,0),margin=inv*0.2,mPct=A.riskCfg.capital>0?(margin/A.riskCfg.capital*100):0;
   el("pf-cnt").textContent=A.portfolio.length;el("pf-inv").textContent="₹"+fmt(inv);
@@ -2076,18 +1847,10 @@ function renderRebalTargets(){
 }
 
 function addRebalTarget(){
-  try{
-    const sectors=["Banking","IT","Pharma","Auto","FMCG","Energy","Metal","Realty","Other"];
-    const existing=A.rebalTargets.map(t=>t.sector);
-    const next=sectors.find(s=>!existing.includes(s))||"Custom";
-    A.rebalTargets.push({sector:next,target:10});
-    saveData("v4_rebal",A.rebalTargets);
-    backupData();
-    renderRebalBars();
-    addLog("INFO",`Rebalance target added: ${next}`);
-  }catch(e){
-    addLog("ERROR","Rebalance add failed: "+e.message);
-  }
+  const sectors=["Banking","IT","Pharma","Auto","FMCG","Energy","Metal","Realty","Other"];
+  const existing=A.rebalTargets.map(t=>t.sector);
+  const next=sectors.find(s=>!existing.includes(s))||"Custom";
+  A.rebalTargets.push({sector:next,target:10});ls.set("v4_rebal",A.rebalTargets);renderRebalBars();
 }
 
 function calcRebalance(){
@@ -2107,25 +1870,16 @@ function calcRebalance(){
 ═══════════════════════════════════════════════════════════ */
 function logTrade(){
   const sym=el("th-sym").value.trim().toUpperCase(),qty=parseFloat(el("th-qty").value),price=parseFloat(el("th-price").value);
-  if(!sym||!qty||!price){toast("❌ Fill symbol, qty, price","var(--warn)");return;}
-  if(!validateSymbol(sym)||!validateQuantity(qty)||!validatePrice(price)){toast("❌ Invalid input","var(--danger)");return;}
+  if(!sym||!qty||!price){toast("Fill symbol, qty, price","var(--warn)");return;}
   const brok=parseFloat(el("th-brok").value)||0;
-  const side=el("th-side").value;
-  A.trades.unshift({id:Date.now(),symbol:sym,side,qty,price,value:qty*price,brokerage:brok,netValue:qty*price-(side==="SELL"?-brok:brok),strategy:el("th-strat").value,date:el("th-date").value,notes:el("th-notes").value});
-  saveData("v4_tr",A.trades);
-  backupData();
+  A.trades.unshift({id:Date.now(),symbol:sym,side:el("th-side").value,qty,price,value:qty*price,brokerage:brok,netValue:qty*price-(el("th-side").value==="SELL"?-brok:brok),strategy:el("th-strat").value,date:el("th-date").value,notes:el("th-notes").value});
+  ls.set("v4_tr",A.trades);
   ["th-sym","th-qty","th-price","th-notes"].forEach(id=>el(id).value="");
   hide("th-form");renderTrades();updateDashboard();
-  addLog("TRADE",`✅ Logged: ${side} ${qty}×${sym} @ ₹${price}`);
-  toast(`✅ Trade logged: ${sym}`,"var(--accent)");
+  addLog("TRADE",`Logged: ${el("th-side").value||"BUY"} ${qty}×${sym} @ ₹${price}`);
+  toast(`Trade logged: ${sym}`,"var(--accent)");
 }
-function removeTrade(id){
-  A.trades=A.trades.filter(t=>t.id!==id);
-  saveData("v4_tr",A.trades);
-  backupData();
-  renderTrades();updateDashboard();
-  addLog("INFO","Trade removed");
-}
+function removeTrade(id){A.trades=A.trades.filter(t=>t.id!==id);ls.set("v4_tr",A.trades);renderTrades();updateDashboard();}
 let tFilter="ALL";
 function setFilter(f,btn){tFilter=f;document.querySelectorAll("#th-filters .btn-g").forEach(b=>b.classList.remove("on"));btn.classList.add("on");renderTrades();}
 function renderTrades(){
@@ -2175,18 +1929,10 @@ function loadRiskCfg(){const r=A.riskCfg;["r-capital","r-mdaily","r-mdd","r-mpos
   if(el("r-slpct"))el("r-slpct").value=A.riskCfg.slPct;
 }
 function saveRiskCfg(){
-  try{
-    A.riskCfg={capital:+el("r-capital").value,maxDaily:+el("r-mdaily").value,maxDD:+el("r-mdd").value,maxPos:+el("r-mpos").value,maxSector:+el("r-msec").value,perTrade:+el("r-pt").value,slType:el("r-sltype").value,slPct:+el("r-slpct").value};
-    saveData("v4_rcfg",A.riskCfg);
-    backupData();
-    el("cb-daily-v").textContent=A.riskCfg.maxDaily.toLocaleString();el("cb-dd-v").textContent=A.riskCfg.maxDD;
-    updateDashboard();
-    addLog("INFO","✅ Risk config saved");
-    toast("✅ Risk config saved","var(--accent)");
-  }catch(e){
-    addLog("ERROR","Risk config save failed: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-  }
+  A.riskCfg={capital:+el("r-capital").value,maxDaily:+el("r-mdaily").value,maxDD:+el("r-mdd").value,maxPos:+el("r-mpos").value,maxSector:+el("r-msec").value,perTrade:+el("r-pt").value,slType:el("r-sltype").value,slPct:+el("r-slpct").value};
+  ls.set("v4_rcfg",A.riskCfg);
+  el("cb-daily-v").textContent=A.riskCfg.maxDaily.toLocaleString();el("cb-dd-v").textContent=A.riskCfg.maxDD;
+  updateDashboard();addLog("INFO","Risk config saved.");toast("Risk config saved","var(--accent)");
 }
 function renderRiskGauges(){
   const g=el("risk-gauges");if(!g)return;
@@ -2198,21 +1944,7 @@ function renderRiskGauges(){
    ALERTS
 ═══════════════════════════════════════════════════════════ */
 function loadTgCfg(){if(A.tgCfg.token&&el("tg-tok"))el("tg-tok").value=A.tgCfg.token;if(A.tgCfg.chatId&&el("tg-cid"))el("tg-cid").value=A.tgCfg.chatId;}
-function saveTg(){
-  try{
-    const token=el("tg-tok").value.trim();
-    const chatId=el("tg-cid").value.trim();
-    if(!token||!chatId){toast("❌ Enter token and chat ID","var(--danger)");return;}
-    A.tgCfg={token,chatId};
-    saveData("v4_tgcfg",A.tgCfg);
-    backupData();
-    addLog("INFO","✅ Telegram config saved");
-    toast("✅ Saved","var(--accent)");
-  }catch(e){
-    addLog("ERROR","Telegram config save failed: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-  }
-}
+function saveTg(){A.tgCfg={token:el("tg-tok").value.trim(),chatId:el("tg-cid").value.trim()};ls.set("v4_tgcfg",A.tgCfg);addLog("INFO","Telegram config saved.");toast("Saved","var(--accent)");}
 async function testTg(){
   if(!A.tgCfg.token){toast("Save config first","var(--warn)");return;}
   try{await fetch(`https://api.telegram.org/bot${A.tgCfg.token}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:A.tgCfg.chatId,text:"🤖 AlgoDESK v4 — Test alert ✅"})});toast("Test sent!","var(--accent)");}
@@ -2220,43 +1952,13 @@ async function testTg(){
 }
 async function sendTg(msg){if(!A.tgCfg.token)return;try{await fetch(`https://api.telegram.org/bot${A.tgCfg.token}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:A.tgCfg.chatId,text:`🤖 AlgoDESK v4\n${msg}\n⏰ ${new Date().toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata"})} IST`})});}catch{}}
 function addAlert(){
-  try{
-    const sym=el("al-sym").value.trim().toUpperCase(),val=parseFloat(el("al-val").value);
-    if(!sym||!val||!validateSymbol(sym)||!validatePrice(val)){toast("❌ Invalid input","var(--danger)");return;}
-    A.alerts.push({id:Date.now(),symbol:sym,condition:el("al-cond").value,value:val,priority:el("al-prio").value,active:true,created:new Date().toLocaleString()});
-    saveData("v4_al",A.alerts);
-    backupData();
-    renderAlerts();el("al-sym").value=el("al-val").value="";
-    addLog("INFO",`✅ Alert set: ${sym}`);
-    toast(`✅ Alert: ${sym}`,"var(--accent)");
-  }catch(e){
-    addLog("ERROR","Alert add failed: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-  }
+  const sym=el("al-sym").value.trim().toUpperCase(),val=parseFloat(el("al-val").value);
+  if(!sym||!val){toast("Fill symbol and value","var(--warn)");return;}
+  A.alerts.push({id:Date.now(),symbol:sym,condition:el("al-cond").value,value:val,priority:el("al-prio").value,active:true,created:new Date().toLocaleString()});
+  ls.set("v4_al",A.alerts);renderAlerts();el("al-sym").value=el("al-val").value="";toast(`Alert: ${sym}`,"var(--accent)");
 }
-function removeAlert(id){
-  try{
-    A.alerts=A.alerts.filter(a=>a.id!==id);
-    saveData("v4_al",A.alerts);
-    backupData();
-    renderAlerts();
-    addLog("INFO","Alert removed");
-  }catch(e){
-    addLog("ERROR","Alert delete failed: "+e.message);
-  }
-}
-function toggleAlertActive(id){
-  try{
-    const a=A.alerts.find(a=>a.id===id);
-    if(a)a.active=!a.active;
-    saveData("v4_al",A.alerts);
-    backupData();
-    renderAlerts();
-    addLog("INFO",`Alert ${a.active?"activated":"deactivated"}`);
-  }catch(e){
-    addLog("ERROR","Toggle failed: "+e.message);
-  }
-}
+function removeAlert(id){A.alerts=A.alerts.filter(a=>a.id!==id);ls.set("v4_al",A.alerts);renderAlerts();}
+function toggleAlertActive(id){const a=A.alerts.find(a=>a.id===id);if(a)a.active=!a.active;ls.set("v4_al",A.alerts);renderAlerts();}
 function renderAlerts(){
   const c=el("alerts-list");if(!c)return;
   if(!A.alerts.length){c.innerHTML='<div class="empty">No price alerts.</div>';return;}
@@ -2298,28 +2000,14 @@ function refreshHealth(){
    NOTIFICATIONS
 ═══════════════════════════════════════════════════════════ */
 function addNotif(type,msg,color){
-  try{
-    A.notifications.unshift({id:Date.now(),type,msg,color:color||"var(--accent)",read:false,time:new Date().toLocaleTimeString()});
-    if(A.notifications.length>50)A.notifications.pop();
-    A.unreadNotifs++;
-    saveData("v4_notifs",A.notifications);
-    updateNotifBadge();renderNotifPanel();
-  }catch(e){
-    console.error("Notification add failed:",e);
-  }
+  A.notifications.unshift({id:Date.now(),type,msg,color:color||"var(--accent)",read:false,time:new Date().toLocaleTimeString()});
+  if(A.notifications.length>50)A.notifications.pop();
+  A.unreadNotifs++;ls.set("v4_notifs",A.notifications);updateNotifBadge();renderNotifPanel();
 }
 function updateNotifBadge(){const c=el("notif-count");if(!c)return;const u=A.notifications.filter(n=>!n.read).length;if(u>0){c.textContent=u;c.style.display="inline";}else c.style.display="none";}
 function toggleNotifs(){A.notifOpen=!A.notifOpen;el("notif-panel").classList.toggle("open",A.notifOpen);if(A.notifOpen)markAllRead();}
 function closeNotifs(){A.notifOpen=false;el("notif-panel").classList.remove("open");}
-function markAllRead(){
-  try{
-    A.notifications.forEach(n=>n.read=true);
-    saveData("v4_notifs",A.notifications);
-    updateNotifBadge();
-  }catch(e){
-    console.error("Mark all read failed:",e);
-  }
-}
+function markAllRead(){A.notifications.forEach(n=>n.read=true);ls.set("v4_notifs",A.notifications);updateNotifBadge();}
 function renderNotifPanel(){
   const c=el("notif-list");if(!c)return;
   if(!A.notifications.length){c.innerHTML='<div class="empty">No notifications.</div>';return;}
@@ -2337,22 +2025,7 @@ function renderConnectPage(){
   else if(!A.pinUnlocked){hide("pin-setup");show("pin-lock");hide("conn-main");}
   else{hide("pin-setup");hide("pin-lock");show("conn-main");renderConnectBadge();}
 }
-function setPin(){
-  try{
-    const p=el("pin-new").value;
-    if(p.length<6){showErr("pin-err","PIN ≥6 digits.");return;}
-    A.pinHash=hash(p);
-    A.pinSet=true;
-    A.pinUnlocked=true;
-    saveData("v4_pinSet",true);
-    saveData("v4_pinHash",A.pinHash);
-    hide("pin-err");renderConnectPage();
-    addLog("INFO","✅ PIN set");
-  }catch(e){
-    addLog("ERROR","PIN set failed: "+e.message);
-    toast("❌ PIN set failed","var(--danger)");
-  }
-}
+function setPin(){const p=el("pin-new").value;if(p.length<6){showErr("pin-err","PIN ≥6 digits.");return;}A.pinHash=hash(p);A.pinSet=true;A.pinUnlocked=true;ls.set("v4_pinSet",true);ls.set("v4_pinHash",A.pinHash);hide("pin-err");renderConnectPage();}
 function unlockPin(){const p=el("pin-in").value;if(hash(p)===A.pinHash||!A.pinHash){A.pinUnlocked=true;hide("pin-err2");renderConnectPage();}else showErr("pin-err2","Incorrect PIN.");}
 function hash(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return h;}
 const BH={dhan:"Dhan → Partner API → Create App → Client ID + Secret",zerodha:"Zerodha → kite.trade → My Apps → New App → API key + Secret",upstox:"Upstox → Developer → My Apps → Create App → API Key + Secret",angel:"Angel One → SmartAPI → Create App → API Key"};
@@ -2365,52 +2038,15 @@ function selBroker(id){
 }
 function brokerName(){return{dhan:"Dhan",zerodha:"Zerodha",upstox:"Upstox",angel:"Angel One"}[A.broker]||A.broker;}
 function connectBroker(){
-  try{
-    const key=el("conn-key").value.trim(),sec=el("conn-sec").value.trim();
-    if(!key||!sec){showErr("conn-err","Both fields required.");return;}
-    
-    // DHAN-specific authentication
-    if(A.broker==="dhan"){
-      dhanConfig.clientID=key;
-      dhanConfig.token=sec;
-      A.dhanAuth={clientID:key,token:sec,authenticated:true};
-      saveData("v4_dhan_auth",A.dhanAuth);
-    }
-    
-    A.connected=true;
-    saveData("v4_broker_key",key);
-    saveData("v4_broker_sec",sec);
-    saveData("v4_connected",true);
-    hide("conn-err");renderConnectBadge();
-    const hb=el("hdr-broker-badge");if(hb){hb.textContent=brokerName()+" ●";hb.style.display="inline-block";}
-    el("disc-btn").style.display="inline-flex";
-    addLog("SUCCESS",`✅ Broker ${brokerName()} connected`);
-    updateDashboard();sendTg(`✅ ${brokerName()} connected`);
-    toast(`✅ ${brokerName()} connected`,"var(--accent)");
-    renderHealthComponents();
-    
-    // Sync portfolio if DHAN
-    if(A.broker==="dhan")syncDhanPortfolio();
-  }catch(e){
-    addLog("ERROR","Broker connection failed: "+e.message);
-    toast("❌ Connection failed","var(--danger)");
-  }
+  const key=el("conn-key").value.trim(),sec=el("conn-sec").value.trim();
+  if(!key||!sec){showErr("conn-err","Both fields required.");return;}
+  A.connected=true;hide("conn-err");renderConnectBadge();
+  const hb=el("hdr-broker-badge");if(hb){hb.textContent=brokerName()+" ●";hb.style.display="inline-block";}
+  el("disc-btn").style.display="inline-flex";
+  addLog("SUCCESS",`Broker ${brokerName()} connected.`);updateDashboard();sendTg(`✅ ${brokerName()} connected`);
+  toast(`${brokerName()} connected`,"var(--accent)");renderHealthComponents();
 }
-function disconnectBroker(){
-  try{
-    A.connected=false;
-    A.broker="";
-    saveData("v4_connected",false);
-    const hb=el("hdr-broker-badge");if(hb)hb.style.display="none";
-    el("disc-btn").style.display="none";
-    renderConnectBadge();
-    updateDashboard();
-    addLog("INFO","Broker disconnected");
-    toast("❌ Disconnected","var(--warn)");
-  }catch(e){
-    addLog("ERROR","Disconnect failed: "+e.message);
-  }
-}
+function disconnectBroker(){A.connected=false;A.broker="";const hb=el("hdr-broker-badge");if(hb)hb.style.display="none";el("disc-btn").style.display="none";renderConnectBadge();updateDashboard();toast("Disconnected","var(--warn)");}
 function renderConnectBadge(){const b=el("conn-badge");if(b)b.style.display=A.connected?"inline-block":"none";}
 
 /* ═══════════════════════════════════════════════════════════
@@ -2418,16 +2054,9 @@ function renderConnectBadge(){const b=el("conn-badge");if(b)b.style.display=A.co
 ═══════════════════════════════════════════════════════════ */
 function loadSettings(){if(A.theme)setTheme(A.theme,true);}
 function setTheme(t,silent){
-  try{
-    A.theme=t;
-    document.documentElement.dataset.theme=t==="light"?"light":"";
-    saveData("v4_theme",t);
-    if(!silent)toast(t==="dark"?"🌙 Dark Mode":"☀ Light Mode","var(--blue)");
-    addLog("INFO","Theme changed to "+t);
-  }catch(e){
-    addLog("ERROR","Theme change failed: "+e.message);
-  }
-}
+  A.theme=t;document.documentElement.dataset.theme=t==="light"?"light":"";
+  ls.set("v4_theme",t);
+  if(!silent)toast(t==="dark"?"🌙 Dark Mode":"☀ Light Mode","var(--blue)");
 }
 function toggleCompact(){document.body.style.fontSize=document.body.style.fontSize==="12px"?"13px":"12px";}
 function exportAll(){
@@ -2466,282 +2095,27 @@ const chatHist=[];
 function appendChat(r,c){const m=el("chat-msgs");const d=document.createElement("div");d.className="bubble "+r;d.textContent=c;m.appendChild(d);m.scrollTop=m.scrollHeight;}
 async function sendChat(){
   const inp=el("chat-in"),btn=el("chat-send-btn");
-  const txt=inp.value.trim();if(!txt)return;if(btn.disabled)return;
-  inp.value="";btn.disabled=true;
+  const txt=inp.value.trim();if(!txt)return;inp.value="";btn.disabled=true;
   chatHist.push({role:"user",content:txt});appendChat("user",txt);
-  const th=document.createElement("div");th.className="bubble assistant";th.textContent="🔄 Thinking…";el("chat-msgs").appendChild(th);el("chat-msgs").scrollTop=el("chat-msgs").scrollHeight;
+  const th=document.createElement("div");th.className="bubble assistant";th.textContent="Thinking…";el("chat-msgs").appendChild(th);el("chat-msgs").scrollTop=el("chat-msgs").scrollHeight;
   const sys=`You are an institutional-grade AI trading assistant for AlgoDESK v4, a personal NSE/BSE trading system.
 RULES: 1) Never invent prices/returns/win-rates. 2) Say "may signal" not definitive buy/sell. 3) Be concise and structured.
 Context: Broker=${A.broker||"None"} | Strategy=${A.activeStrategy?.name||"None"} | Bot=${A.botActive?"RUNNING":"STOPPED"} | Mode=${A.paperMode?"PAPER":"LIVE"} | Positions=${A.portfolio.length} | Capital=₹${A.riskCfg.capital.toLocaleString()} | Running Algos=${A.runningStrategies.length}`;
   try{
-    const reply=await aiCall(JSON.stringify({q:txt,hist:chatHist.slice(-5)}),sys,1000,3);
-    chatHist.push({role:"assistant",content:reply});
-    th.textContent=reply;
-    addLog("INFO","Chat query processed successfully.");
-  }catch(e){
-    th.textContent=`❌ Error: ${e.message}\\nPlease check your internet connection or try again.`;
-    addLog("ERROR","Chat failed: "+e.message);
-  }
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,system:sys,messages:chatHist.slice(-10).map(m=>({role:m.role,content:m.content}))})});
+    const data=await res.json();const reply=data?.content?.[0]?.text||"Error.";
+    chatHist.push({role:"assistant",content:reply});th.textContent=reply;
+  }catch{th.textContent="Network error.";}
   btn.disabled=false;el("chat-msgs").scrollTop=el("chat-msgs").scrollHeight;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   DHAN BROKER API INTEGRATION
+   AI HELPER
 ═══════════════════════════════════════════════════════════ */
-const dhanConfig={baseURL:"https://api.dhan.co/v2",clientID:"",token:""};
-const dhanBreaker=new CircuitBreaker(4,120000); // 4 failures, 120s timeout
-
-async function dhanRequest(endpoint,method="GET",body=null){
-  return dhanBreaker.call(async()=>{
-    const url=dhanConfig.baseURL+endpoint;
-    const opts={method,headers:{"Content-Type":"application/json","Authorization":`Bearer ${dhanConfig.token}`,"Client-ID":dhanConfig.clientID}};
-    if(body)opts.body=JSON.stringify(body);
-    
-    const res=await Promise.race([fetch(url,opts),new Promise((_,r)=>setTimeout(()=>r(new Error("DHAN timeout")),10000))]);
-    if(!res.ok)throw new Error(`DHAN error ${res.status}: ${res.statusText}`);
-    const data=await res.json();
-    if(data.status!=="success"&&data.status!=="ok")throw new Error(data.message||"DHAN API error");
-    return data.data||data;
-  },null);
+async function aiCall(prompt,sys="Return only valid JSON.",maxTok=1200){
+  const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:maxTok,system:sys,messages:[{role:"user",content:prompt}]})});
+  const d=await res.json();return d?.content?.[0]?.text||"{}";
 }
-
-async function dhanAuth(){
-  try{
-    const clientID=el("dhan-cid")?.value.trim();
-    const apiKey=el("dhan-key")?.value.trim();
-    if(!clientID||!apiKey){toast("❌ DHAN Client ID & API Key required","var(--danger)");return;}
-    
-    // Validate with DHAN API
-    const loginResp=await fetch(`${dhanConfig.baseURL}/user/login`,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({clientID,secretKey:apiKey})
-    });
-    const loginData=await loginResp.json();
-    if(!loginData.data?.authToken)throw new Error("DHAN authentication failed");
-    
-    dhanConfig.clientID=clientID;
-    dhanConfig.token=loginData.data.authToken;
-    A.dhanAuth={clientID,token:dhanConfig.token,authenticated:true};
-    saveData("v4_dhan_auth",A.dhanAuth);
-    
-    addLog("SUCCESS","✅ DHAN authenticated");
-    toast("✅ DHAN auth success","var(--accent)");
-    return true;
-  }catch(e){
-    addLog("ERROR","DHAN auth failed: "+e.message);
-    toast("❌ DHAN auth failed: "+e.message,"var(--danger)");
-    return false;
-  }
-}
-
-async function dhanPlaceOrder(symbol,qty,price,orderType="MARKET",side="BUY"){
-  try{
-    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
-    if(!validateSymbol(symbol)||!validateQuantity(qty)||!validatePrice(price))throw new Error("Invalid order parameters");
-    
-    const payload={
-      symbol,
-      quantity:qty,
-      price:orderType==="LIMIT"?price:0,
-      orderType,
-      side,
-      exchange:"NSE",
-      productType:"MIS",
-      orderValidityType:"GFD",
-      icebergQty:0,
-      isAMO:false
-    };
-    
-    const resp=await dhanRequest("/orders/place","POST",payload);
-    if(!resp.orderId)throw new Error("No order ID returned");
-    
-    const order={id:resp.orderId,symbol,qty,price,side,type:orderType,status:"PENDING",timestamp:new Date().toLocaleString(),rsp:resp};
-    A.orders.unshift(order);
-    saveData("v4_ord",A.orders);
-    
-    addLog("TRADE",`✅ DHAN order: ${side} ${qty}×${symbol}`);
-    sendTg(`🔔 DHAN Order: ${side} ${qty}×${symbol} @ ₹${price}`);
-    return resp.orderId;
-  }catch(e){
-    addLog("ERROR","DHAN order failed: "+e.message);
-    toast("❌ "+e.message,"var(--danger)");
-    return null;
-  }
-}
-
-async function dhanModifyOrder(orderId,qty,price){
-  try{
-    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
-    const resp=await dhanRequest(`/orders/${orderId}/modify","PUT",{quantity:qty,price});
-    addLog("INFO",`✅ DHAN order ${orderId} modified`);
-    toast("✅ Order modified","var(--accent)");
-    return resp;
-  }catch(e){
-    addLog("ERROR","DHAN modify failed: "+e.message);
-    toast("❌ Modify failed","var(--danger)");
-    return null;
-  }
-}
-
-async function dhanCancelOrder(orderId){
-  try{
-    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
-    const resp=await dhanRequest(`/orders/${orderId}/cancel`,"DELETE");
-    A.orders=A.orders.filter(o=>o.id!==orderId);
-    saveData("v4_ord",A.orders);
-    addLog("INFO",`✅ DHAN order ${orderId} cancelled`);
-    toast("✅ Order cancelled","var(--accent)");
-    return resp;
-  }catch(e){
-    addLog("ERROR","DHAN cancel failed: "+e.message);
-    toast("❌ Cancel failed","var(--danger)");
-    return null;
-  }
-}
-
-async function dhanGetHoldings(){
-  try{
-    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
-    const resp=await dhanRequest("/holdings");
-    if(!Array.isArray(resp)||!resp.length)return [];
-    return resp.map(h=>({symbol:h.isin,qty:h.quantity,avgCost:h.costPrice,value:h.totalValue,sector:"",exchange:h.exchange}));
-  }catch(e){
-    addLog("ERROR","DHAN holdings fetch failed: "+e.message);
-    return [];
-  }
-}
-
-async function dhanGetPositions(){
-  try{
-    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
-    const resp=await dhanRequest("/positions");
-    if(!Array.isArray(resp)||!resp.length)return [];
-    return resp.map(p=>({symbol:p.symbol,qty:p.quantity,avgPrice:p.avgPrice,lastPrice:p.lastPrice,pnl:p.pnl,pnlPct:(p.pnl/(p.avgPrice*p.quantity)*100).toFixed(2)}));
-  }catch(e){
-    addLog("ERROR","DHAN positions fetch failed: "+e.message);
-    return [];
-  }
-}
-
-async function dhanGetOrders(){
-  try{
-    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
-    const resp=await dhanRequest("/orders");
-    if(!Array.isArray(resp))return [];
-    return resp.map(o=>({id:o.orderId,symbol:o.symbol,qty:o.quantity,price:o.price,status:o.orderStatus,type:o.orderType,side:o.side,exchange:o.exchange,timestamp:o.createdAt}));
-  }catch(e){
-    addLog("ERROR","DHAN orders fetch failed: "+e.message);
-    return [];
-  }
-}
-
-async function dhanGetAccount(){
-  try{
-    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
-    const resp=await dhanRequest("/account");
-    return{accountID:resp.accountId,balance:resp.cashBalance,equity:resp.equity,margin:resp.marginUsed,marginAvailable:resp.marginAvailable,totalValue:resp.totalValue};
-  }catch(e){
-    addLog("ERROR","DHAN account fetch failed: "+e.message);
-    return null;
-  }
-}
-
-async function syncDhanPortfolio(){
-  try{
-    if(!dhanConfig.token)return;
-    const holdings=await dhanGetHoldings();
-    if(holdings.length){
-      A.portfolio=holdings;
-      saveData("v4_pf",A.portfolio);
-      addLog("INFO",`✅ DHAN portfolio synced: ${holdings.length} holdings`);
-    }
-  }catch(e){
-    addLog("ERROR","DHAN sync failed: "+e.message);
-  }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   RESILIENCE HELPERS
-═══════════════════════════════════════════════════════════ */
-// API with exponential backoff retry + circuit breaker
-async function aiCall(prompt,sys="Return only valid JSON.",maxTok=1200,retries=3){
-  let lastError;
-  const apiCall=async()=>{
-    for(let attempt=0;attempt<retries;attempt++){
-      try{
-        if(!A.connectionStatus)throw new Error("No internet connection");
-        const res=await Promise.race([
-          fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:maxTok,system:sys,messages:[{role:"user",content:prompt}]})}),
-          new Promise((_,r)=>setTimeout(()=>r(new Error("API timeout")),15000))
-        ]);
-        if(!res.ok){if(res.status===429||res.status>=500){if(attempt<retries-1){await new Promise(r=>setTimeout(r,Math.pow(2,attempt)*1000));continue;}}else throw new Error(`API error: ${res.status}`);}
-        const d=await res.json();if(!d?.content?.[0]?.text)throw new Error("Invalid response");
-        A.apiCallStats.success++;return d.content[0].text;
-      }catch(e){lastError=e;A.apiCallStats.failed++;if(attempt<retries-1){A.apiCallStats.retried++;await new Promise(r=>setTimeout(r,Math.pow(2,attempt)*1000));}
-      }
-    }
-    throw new Error(`API failed: ${lastError?.message}. Check connection.`);
-  };
-  
-  try{
-    return await apiBreakerAI.call(apiCall,()=>{
-      throw new Error("Circuit breaker OPEN - API temporarily unavailable");
-    });
-  }catch(e){
-    throw e;
-  }
-}
-
-// Input Validation
-function validateSymbol(sym){if(!sym||typeof sym!=="string")return false;return /^[A-Z0-9\-&*@]{1,15}$/.test(sym.trim().toUpperCase());}
-function validateQuantity(qty){const q=parseFloat(qty);return Number.isFinite(q)&&q>0&&q===Math.floor(q);}
-function validatePrice(price){const p=parseFloat(price);return Number.isFinite(p)&&p>=0;}
-function validateArray(data){return Array.isArray(data)?data:null;}
-
-// Connection Monitor
-let connCheckTimer;
-function initConnectionMonitor(){
-  connCheckTimer=setInterval(async()=>{
-    try{
-      const res=await Promise.race([fetch("https://api.anthropic.com/v1/",{method:"HEAD",mode:"no-cors"}),new Promise((_,r)=>setTimeout(()=>r(new Error("timeout")),3000))]);
-      A.connectionStatus=res.status!==0||res.type==="opaque";
-    }catch{A.connectionStatus=false;}
-  },8000);
-}
-
-// Auto-backup with IndexedDB
-async function backupData(){
-  const backup={id:"backup_"+Date.now(),timestamp:new Date().toISOString(),portfolio:A.portfolio,trades:A.trades,watchlist:A.watchlist};
-  try{
-    await ls.set("backups",backup);
-  }catch(e){console.warn("Backup failed:",e);}
-  const keys=Object.keys(localStorage).filter(k=>k.startsWith("v4_backup_")).sort();
-  while(keys.length>10)localStorage.removeItem(keys.shift());
-}
-
-// Telegram with retry + circuit breaker
-async function sendTgWithFallback(msg,retries=2){
-  if(!A.tgCfg.token)return;
-  const tgCall=async()=>{
-    for(let attempt=0;attempt<retries;attempt++){
-      try{
-        const res=await Promise.race([
-          fetch(`https://api.telegram.org/bot${A.tgCfg.token}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:A.tgCfg.chatId,text:`🤖 AlgoDESK\n${msg}\n⏰ ${new Date().toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata"})} IST`})}),
-          new Promise((_,r)=>setTimeout(()=>r(new Error("timeout")),5000))
-        ]);
-        if(res.ok)return res;
-        if(res.status===429||res.status>=500){if(attempt<retries-1){await new Promise(r=>setTimeout(r,Math.pow(2,attempt)*1000));continue;}}else throw new Error(`Telegram: ${res.status}`);
-      }catch(e){if(attempt===retries-1)throw e;}
-    }
-  };
-  try{
-    await apiBreakerTG.call(tgCall);
-  }catch(e){
-    addNotif("ALERT","⚠ Alert delivery failed","var(--warn)");
-  }
-}
-async function sendTg(msg){return sendTgWithFallback(msg);}
 
 /* ═══════════════════════════════════════════════════════════
    TOAST
@@ -2757,19 +2131,7 @@ function show(id){const e=el(id);if(e)e.style.display="block";}
 function hide(id){const e=el(id);if(e)e.style.display="none";}
 function showErr(id,msg){const e=el(id);if(e){e.textContent=msg;e.style.display="block";}}
 
-// Initialize navigation immediately when DOM is ready
-function initializeNavigation(){
-  // Event listeners attached in boot() function
-}
-
-// Auto-initialize navigation when DOM loads
-if(document.readyState!=="loading"){
-  boot();
-}
-
-document.addEventListener("DOMContentLoaded",function(){
-  boot();
-});
+document.addEventListener("DOMContentLoaded",boot);
 </script>
 </body>
 </html>
