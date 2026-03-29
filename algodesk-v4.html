@@ -299,33 +299,33 @@ kbd{background:var(--surface);border:1px solid var(--border2);border-radius:4px;
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <nav id="sidebar">
   <div class="nav-section">Core</div>
-  <button class="nav-btn active" onclick="navigate('dashboard')"><span class="nav-icon">◈</span><span class="nav-label">Dashboard</span></button>
-  <button class="nav-btn" onclick="navigate('strategies')"><span class="nav-icon">⬡</span><span class="nav-label">Strategies</span></button>
-  <button class="nav-btn" onclick="navigate('marketdata')"><span class="nav-icon">📡</span><span class="nav-label">Market Data</span></button>
-  <button class="nav-btn" onclick="navigate('signals')"><span class="nav-icon">🧠</span><span class="nav-label">AI Signals</span><span class="nav-badge" id="sig-badge" style="display:none"></span></button>
+  <button class="nav-btn active" data-page="dashboard" onclick="navigate('dashboard')"><span class="nav-icon">◈</span><span class="nav-label">Dashboard</span></button>
+  <button class="nav-btn" data-page="strategies" onclick="navigate('strategies')"><span class="nav-icon">⬡</span><span class="nav-label">Strategies</span></button>
+  <button class="nav-btn" data-page="marketdata" onclick="navigate('marketdata')"><span class="nav-icon">📡</span><span class="nav-label">Market Data</span></button>
+  <button class="nav-btn" data-page="signals" onclick="navigate('signals')"><span class="nav-icon">🧠</span><span class="nav-label">AI Signals</span><span class="nav-badge" id="sig-badge" style="display:none"></span></button>
 
   <div class="nav-section">Analysis</div>
-  <button class="nav-btn" onclick="navigate('screener')"><span class="nav-icon">⊡</span><span class="nav-label">Screener</span></button>
-  <button class="nav-btn" onclick="navigate('watchlist')"><span class="nav-icon">◉</span><span class="nav-label">Watchlist</span></button>
-  <button class="nav-btn" onclick="navigate('backtest')"><span class="nav-icon">⏮</span><span class="nav-label">Backtest</span></button>
-  <button class="nav-btn" onclick="navigate('analytics')"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></button>
-  <button class="nav-btn" onclick="navigate('journal')"><span class="nav-icon">📓</span><span class="nav-label">Trade Journal</span></button>
+  <button class="nav-btn" data-page="screener" onclick="navigate('screener')"><span class="nav-icon">⊡</span><span class="nav-label">Screener</span></button>
+  <button class="nav-btn" data-page="watchlist" onclick="navigate('watchlist')"><span class="nav-icon">◉</span><span class="nav-label">Watchlist</span></button>
+  <button class="nav-btn" data-page="backtest" onclick="navigate('backtest')"><span class="nav-icon">⏮</span><span class="nav-label">Backtest</span></button>
+  <button class="nav-btn" data-page="analytics" onclick="navigate('analytics')"><span class="nav-icon">📊</span><span class="nav-label">Analytics</span></button>
+  <button class="nav-btn" data-page="journal" onclick="navigate('journal')"><span class="nav-icon">📓</span><span class="nav-label">Trade Journal</span></button>
 
   <div class="nav-section">Trading</div>
-  <button class="nav-btn" onclick="navigate('execution')"><span class="nav-icon">⚡</span><span class="nav-label">Execution</span></button>
-  <button class="nav-btn" onclick="navigate('portfolio')"><span class="nav-icon">◐</span><span class="nav-label">Portfolio</span></button>
-  <button class="nav-btn" onclick="navigate('rebalance')"><span class="nav-icon">⚖</span><span class="nav-label">Rebalancer</span></button>
-  <button class="nav-btn" onclick="navigate('history')"><span class="nav-icon">≡</span><span class="nav-label">Trade History</span></button>
+  <button class="nav-btn" data-page="execution" onclick="navigate('execution')"><span class="nav-icon">⚡</span><span class="nav-label">Execution</span></button>
+  <button class="nav-btn" data-page="portfolio" onclick="navigate('portfolio')"><span class="nav-icon">◐</span><span class="nav-label">Portfolio</span></button>
+  <button class="nav-btn" data-page="rebalance" onclick="navigate('rebalance')"><span class="nav-icon">⚖</span><span class="nav-label">Rebalancer</span></button>
+  <button class="nav-btn" data-page="history" onclick="navigate('history')"><span class="nav-icon">≡</span><span class="nav-label">Trade History</span></button>
 
   <div class="nav-section">Risk & Ops</div>
-  <button class="nav-btn" onclick="navigate('risk')"><span class="nav-icon">🛡</span><span class="nav-label">Risk Manager</span></button>
-  <button class="nav-btn" onclick="navigate('alerts')"><span class="nav-icon">🔔</span><span class="nav-label">Alerts</span></button>
-  <button class="nav-btn" onclick="navigate('health')"><span class="nav-icon">💚</span><span class="nav-label">System Health</span></button>
+  <button class="nav-btn" data-page="risk" onclick="navigate('risk')"><span class="nav-icon">🛡</span><span class="nav-label">Risk Manager</span></button>
+  <button class="nav-btn" data-page="alerts" onclick="navigate('alerts')"><span class="nav-icon">🔔</span><span class="nav-label">Alerts</span></button>
+  <button class="nav-btn" data-page="health" onclick="navigate('health')"><span class="nav-icon">💚</span><span class="nav-label">System Health</span></button>
 
   <div class="nav-section">System</div>
-  <button class="nav-btn" onclick="navigate('connect')"><span class="nav-icon">⊕</span><span class="nav-label">Connect</span></button>
-  <button class="nav-btn" onclick="navigate('settings')"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></button>
-  <button class="nav-btn" onclick="navigate('logs')"><span class="nav-icon">▸</span><span class="nav-label">Logs</span></button>
+  <button class="nav-btn" data-page="connect" onclick="navigate('connect')"><span class="nav-icon">⊕</span><span class="nav-label">Connect</span></button>
+  <button class="nav-btn" data-page="settings" onclick="navigate('settings')"><span class="nav-icon">⚙</span><span class="nav-label">Settings</span></button>
+  <button class="nav-btn" data-page="logs" onclick="navigate('logs')"><span class="nav-icon">▸</span><span class="nav-label">Logs</span></button>
 
   <div class="sidebar-footer">
     <button id="sidebar-toggle-btn" onclick="toggleBot()">▶ START</button>
@@ -1224,41 +1224,13 @@ function defaultRebalTargets(){return[{sector:"Banking",target:25},{sector:"IT",
    NAVIGATION
 ═══════════════════════════════════════════════════════════ */
 function navigate(page){
-  try{
-    if(!page||typeof page!=="string"){console.warn("Invalid page:",page);return;}
-    console.log("Navigating to:",page);
-    
-    // Hide all pages
-    document.querySelectorAll(".page").forEach(p=>{p.classList.remove("active");p.style.display="none";});
-    
-    // Show selected page
-    const selectedPage=document.getElementById("page-"+page);
-    if(!selectedPage){console.warn("Page #page-"+page+" not found");return;}
-    selectedPage.classList.add("active");
-    selectedPage.style.display="block";
-    
-    // Update nav button active state
-    document.querySelectorAll(".nav-btn").forEach(btn=>{
-      const onclick=btn.getAttribute("onclick")||"";
-      if(onclick.includes("'"+page+"'")||onclick.includes('"'+page+'"')){
-        btn.classList.add("active");
-      }else{
-        btn.classList.remove("active");
-      }
-    });
-    
-    // Call page-specific handlers
-    try{if(page==="connect"&&typeof renderConnectPage==="function")renderConnectPage();}catch(e){console.warn("renderConnectPage error:",e);}
-    try{if(page==="analytics"&&typeof genAnalytics==="function")genAnalytics();}catch(e){console.warn("genAnalytics error:",e);}
-    try{if(page==="marketdata"){if(typeof renderMarketMovers==="function")renderMarketMovers();if(typeof drawOHLC==="function")drawOHLC();}}catch(e){console.warn("market data error:",e);}
-    try{if(page==="signals"&&typeof runMLSignals==="function")runMLSignals();}catch(e){console.warn("runMLSignals error:",e);}
-    try{if(page==="health"&&typeof refreshHealth==="function")refreshHealth();}catch(e){console.warn("refreshHealth error:",e);}
-    
-    console.log("Navigation to",page,"complete");
-  }catch(e){
-    console.error("Navigation error:",e,e.stack);
-    try{if(typeof addLog==="function")addLog("ERROR","Navigation failed: "+e.message);}catch(e2){}
-  }
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
+  if(page==="connect")renderConnectPage();
+  if(page==="analytics")genAnalytics();
+  if(page==="marketdata"){renderMarketMovers();drawOHLC();}
+  if(page==="signals")runMLSignals();
+  if(page==="health")refreshHealth();
 }
 
 /* ═══════════════════════════════════════════════════════════
