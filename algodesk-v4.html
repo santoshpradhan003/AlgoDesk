@@ -1186,7 +1186,21 @@ function boot(){
       if(indexedDBReady)addLog("INFO","IndexedDB active (enhanced persistence)");else addLog("WARN","Using localStorage (limited persistence)");
       addLog("WARN","Bot STOPPED. Paper mode active. Press START to begin.");
 
-      document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
+      // Attach navigation event listeners with error handling
+      try{
+        document.querySelectorAll(".nav-btn").forEach(b=>{
+          b.addEventListener("click",function(e){
+            e.preventDefault();
+            const page=this.dataset.page;
+            if(page)navigate(page);
+          });
+        });
+        addLog("SUCCESS","✅ Navigation initialized");
+      }catch(e){
+        console.error("Failed to attach nav listeners:",e);
+        addLog("ERROR","Navigation initialization failed: "+e.message);
+      }
+      
       renderMarketMovers();drawOHLC();renderCorpActions();renderNotifPanel();updateNotifBadge();
       
       // Initialize resilience
@@ -1210,13 +1224,36 @@ function defaultRebalTargets(){return[{sector:"Banking",target:25},{sector:"IT",
    NAVIGATION
 ═══════════════════════════════════════════════════════════ */
 function navigate(page){
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
-  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id==="page-"+page));
-  if(page==="connect")renderConnectPage();
-  if(page==="analytics"){genAnalytics();}
-  if(page==="marketdata"){renderMarketMovers();drawOHLC();}
-  if(page==="signals")runMLSignals();
-  if(page==="health")refreshHealth();
+  try{
+    // Hide all pages
+    document.querySelectorAll(".page").forEach(p=>{p.classList.remove("active");p.style.display="none";});
+    
+    // Show selected page
+    const selectedPage=document.getElementById("page-"+page);
+    if(selectedPage){
+      selectedPage.classList.add("active");
+      selectedPage.style.display="block";
+    }
+    
+    // Update nav button styles
+    document.querySelectorAll(".nav-btn").forEach(b=>{
+      if(b.dataset.page===page){
+        b.classList.add("active");
+      }else{
+        b.classList.remove("active");
+      }
+    });
+    
+    // Call page-specific handlers
+    if(page==="connect")renderConnectPage();
+    if(page==="analytics")genAnalytics();
+    if(page==="marketdata"){renderMarketMovers();drawOHLC();}
+    if(page==="signals")runMLSignals();
+    if(page==="health")refreshHealth();
+  }catch(e){
+    console.error("Navigation error:",e);
+    addLog("ERROR","Navigation failed: "+e.message);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2774,7 +2811,30 @@ function show(id){const e=el(id);if(e)e.style.display="block";}
 function hide(id){const e=el(id);if(e)e.style.display="none";}
 function showErr(id,msg){const e=el(id);if(e){e.textContent=msg;e.style.display="block";}}
 
-document.addEventListener("DOMContentLoaded",boot);
+// Initialize navigation immediately when DOM is ready
+function initializeNavigation(){
+  const navButtons=document.querySelectorAll(".nav-btn");
+  navButtons.forEach(btn=>{
+    btn.addEventListener("click",function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const page=this.dataset.page;
+      console.log("Navigating to:",page);
+      if(page)navigate(page);
+    });
+  });
+  console.log("Navigation initialized for "+navButtons.length+" buttons");
+}
+
+// Auto-initialize navigation when DOM loads
+if(document.readyState!=="loading"){
+  initializeNavigation();
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+  initializeNavigation();
+  boot();
+});
 </script>
 </body>
 </html>
