@@ -1153,68 +1153,36 @@ async function saveData(key,value){
    BOOT
 ═══════════════════════════════════════════════════════════ */
 function boot(){
-  initIndexedDB().then(async indexedDBReady=>{
-    try{
-      // Load data from storage (IndexedDB with localStorage fallback)
-      const wlData=await ls.get("v4_wl");const pfData=await ls.get("v4_pf");const trData=await ls.get("v4_tr");
-      A.watchlist=validateArray(wlData)||validateArray(localStorage.getItem("v4_wl")?JSON.parse(localStorage.getItem("v4_wl")):null)||[];
-      A.portfolio=validateArray(pfData)||validateArray(localStorage.getItem("v4_pf")?JSON.parse(localStorage.getItem("v4_pf")):null)||[];
-      A.trades=validateArray(trData)||validateArray(localStorage.getItem("v4_tr")?JSON.parse(localStorage.getItem("v4_tr")):null)||[];
-      
-      A.orders=validateArray(localStorage.getItem("v4_ord")?JSON.parse(localStorage.getItem("v4_ord")):null)||[];
-      A.alerts=validateArray(localStorage.getItem("v4_al")?JSON.parse(localStorage.getItem("v4_al")):null)||[];
-      A.customStrats=validateArray(localStorage.getItem("v4_cs")?JSON.parse(localStorage.getItem("v4_cs")):null)||[];
-      A.journals=validateArray(localStorage.getItem("v4_jn")?JSON.parse(localStorage.getItem("v4_jn")):null)||[];
-      A.stratVersions=validateArray(localStorage.getItem("v4_sv")?JSON.parse(localStorage.getItem("v4_sv")):null)||[];
-      A.notifications=validateArray(localStorage.getItem("v4_notifs")?JSON.parse(localStorage.getItem("v4_notifs")):null)||[];
-      A.rebalTargets=localStorage.getItem("v4_rebal")?JSON.parse(localStorage.getItem("v4_rebal")):defaultRebalTargets();
-      A.pinSet=!!localStorage.getItem("v4_pinSet");A.pinHash=localStorage.getItem("v4_pinHash");
-      A.riskCfg=localStorage.getItem("v4_rcfg")?JSON.parse(localStorage.getItem("v4_rcfg")):A.riskCfg;
-      A.tgCfg=localStorage.getItem("v4_tgcfg")?JSON.parse(localStorage.getItem("v4_tgcfg")):A.tgCfg;
-      A.dhanAuth=localStorage.getItem("v4_dhan_auth")?JSON.parse(localStorage.getItem("v4_dhan_auth")):A.dhanAuth;
-      if(A.dhanAuth.token){dhanConfig.clientID=A.dhanAuth.clientID;dhanConfig.token=A.dhanAuth.token;}
-      A.theme=localStorage.getItem("v4_theme")||"dark";
+  A.watchlist=ls.get("v4_wl")||[];A.portfolio=ls.get("v4_pf")||[];A.trades=ls.get("v4_tr")||[];
+  A.orders=ls.get("v4_ord")||[];A.alerts=ls.get("v4_al")||[];A.customStrats=ls.get("v4_cs")||[];
+  A.journals=ls.get("v4_jn")||[];A.stratVersions=ls.get("v4_sv")||[];
+  A.notifications=ls.get("v4_notifs")||[];A.rebalTargets=ls.get("v4_rebal")||defaultRebalTargets();
+  A.pinSet=!!ls.get("v4_pinSet");A.pinHash=ls.get("v4_pinHash");
+  A.riskCfg=ls.get("v4_rcfg")||A.riskCfg;A.tgCfg=ls.get("v4_tgcfg")||A.tgCfg;
+  A.dhanAuth=ls.get("v4_dhan_auth")||A.dhanAuth;
+  A.theme=ls.get("v4_theme")||"dark";
 
-      el("th-date").valueAsDate=new Date();el("jn-date").valueAsDate=new Date();
-      populateSel();renderAll();startClock();initTicker();initKeyboard();
-      renderConnectPage();renderRiskGauges();renderHealthComponents();renderRebalBars();
-      updateDashboard();updateBotUI();loadRiskCfg();loadTgCfg();loadSettings();
-      setTheme(A.theme,true);refreshHealth();renderRunnerCards();renderVersionList();
+  el("th-date").valueAsDate=new Date();el("jn-date").valueAsDate=new Date();
+  populateSel();renderAll();startClock();initTicker();initKeyboard();
+  renderConnectPage();renderRiskGauges();renderHealthComponents();renderRebalBars();
+  updateDashboard();updateBotUI();loadRiskCfg();loadTgCfg();loadSettings();
+  setTheme(A.theme,true);refreshHealth();renderRunnerCards();renderVersionList();
 
-      appendChat("assistant","AlgoDESK v4 online. ✅ System resilience features enabled:\n• Error recovery with circuit breaker\n• IndexedDB persistence\n• Auto-backup every 5min\n• Input validation\n• Connection monitoring");
-      addLog("SUCCESS","✅ AlgoDESK v4 initialized with enhanced resilience.");
-      if(indexedDBReady)addLog("INFO","IndexedDB active (enhanced persistence)");else addLog("WARN","Using localStorage (limited persistence)");
-      addLog("WARN","Bot STOPPED. Paper mode active. Press START to begin.");
+  appendChat("assistant","AlgoDESK v4 online with enhanced resilience.\n\nFeatures: Enhanced error recovery · IndexedDB persistence · DHAN API integration · Auto-backup · Input validation · Connection monitoring.\n\nConnect your broker for live data. Paper mode active by default.");
+  addLog("INFO","AlgoDESK v4 initialized with resilience features.");
+  addLog("WARN","Bot STOPPED. Paper mode active. Press START or [K] to begin.");
 
-      // Attach navigation event listeners with error handling
-      try{
-        document.querySelectorAll(".nav-btn").forEach(b=>{
-          b.addEventListener("click",function(e){
-            e.preventDefault();
-            const page=this.dataset.page;
-            if(page)navigate(page);
-          });
-        });
-        addLog("SUCCESS","✅ Navigation initialized");
-      }catch(e){
-        console.error("Failed to attach nav listeners:",e);
-        addLog("ERROR","Navigation initialization failed: "+e.message);
-      }
-      
-      renderMarketMovers();drawOHLC();renderCorpActions();renderNotifPanel();updateNotifBadge();
-      
-      // Initialize resilience
-      initConnectionMonitor();
-      setInterval(backupData,300000); // Auto-backup every 5 min
-      if(A.broker==="dhan"&&A.connected)setInterval(syncDhanPortfolio,600000); // DHAN sync every 10 min
-      addLog("SUCCESS","🛡️ Resilience monitoring activated.");
-      toast("✅ AlgoDESK v4 ready","var(--accent)");
-    }catch(e){
-      console.error("Boot error:",e);
-      addLog("ERROR","Boot failed: "+e.message);
-      toast("⚠ Initialization error","var(--danger)");
-    }
-  });
+  document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
+  renderMarketMovers();drawOHLC();renderCorpActions();renderNotifPanel();updateNotifBadge();
+  
+  // Initialize resilience features
+  try{
+    initConnectionMonitor();
+    setInterval(backupData,300000); // Auto-backup every 5 min
+    addLog("SUCCESS","✅ Resilience monitoring activated");
+  }catch(e){
+    console.error("Resilience init error:",e);
+  }
 }
 
 function renderAll(){renderStratGrid();renderWL();renderPortfolio();renderTrades();renderOrderBook();renderAlerts();renderJournal();renderPortfolioCharts();renderRebalBars();}
@@ -2790,26 +2758,15 @@ function showErr(id,msg){const e=el(id);if(e){e.textContent=msg;e.style.display=
 
 // Initialize navigation immediately when DOM is ready
 function initializeNavigation(){
-  const navButtons=document.querySelectorAll(".nav-btn");
-  navButtons.forEach(btn=>{
-    btn.addEventListener("click",function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      const page=this.dataset.page;
-      console.log("Navigating to:",page);
-      if(page)navigate(page);
-    });
-  });
-  console.log("Navigation initialized for "+navButtons.length+" buttons");
+  // Event listeners attached in boot() function
 }
 
 // Auto-initialize navigation when DOM loads
 if(document.readyState!=="loading"){
-  initializeNavigation();
+  boot();
 }
 
 document.addEventListener("DOMContentLoaded",function(){
-  initializeNavigation();
   boot();
 });
 </script>
