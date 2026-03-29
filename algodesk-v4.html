@@ -1040,6 +1040,7 @@ const A={
   tradeFilter:"ALL",pinSet:false,pinUnlocked:false,pinHash:null,
   riskCfg:{capital:500000,maxDaily:10000,maxDD:10,maxPos:10,maxSector:30,perTrade:1,slType:"Fixed %",slPct:2},
   tgCfg:{token:"",chatId:""},
+  dhanAuth:{clientID:"",token:"",authenticated:false},
   allLogs:[],logFilter:"",charts:{},
   startTime:Date.now(),sidebarCollapsed:false,theme:"dark",
   notifOpen:false,unreadNotifs:0,
@@ -1170,6 +1171,8 @@ function boot(){
       A.pinSet=!!localStorage.getItem("v4_pinSet");A.pinHash=localStorage.getItem("v4_pinHash");
       A.riskCfg=localStorage.getItem("v4_rcfg")?JSON.parse(localStorage.getItem("v4_rcfg")):A.riskCfg;
       A.tgCfg=localStorage.getItem("v4_tgcfg")?JSON.parse(localStorage.getItem("v4_tgcfg")):A.tgCfg;
+      A.dhanAuth=localStorage.getItem("v4_dhan_auth")?JSON.parse(localStorage.getItem("v4_dhan_auth")):A.dhanAuth;
+      if(A.dhanAuth.token){dhanConfig.clientID=A.dhanAuth.clientID;dhanConfig.token=A.dhanAuth.token;}
       A.theme=localStorage.getItem("v4_theme")||"dark";
 
       el("th-date").valueAsDate=new Date();el("jn-date").valueAsDate=new Date();
@@ -1189,6 +1192,7 @@ function boot(){
       // Initialize resilience
       initConnectionMonitor();
       setInterval(backupData,300000); // Auto-backup every 5 min
+      if(A.broker==="dhan"&&A.connected)setInterval(syncDhanPortfolio,600000); // DHAN sync every 10 min
       addLog("SUCCESS","🛡️ Resilience monitoring activated.");
       toast("✅ AlgoDESK v4 ready","var(--accent)");
     }catch(e){
@@ -1953,10 +1957,19 @@ function placeOrder(){
     const inv=A.portfolio.reduce((s,p)=>s+p.qty*p.avgCost,0);
     if(inv+orderValue>A.riskCfg.capital*1.5){toast("⚠ Order exceeds capital","var(--warn)");return;}
     
-    const order={id:Date.now(),symbol:sym,side:el("ex-side").value,type:el("ex-type").value,qty,price,sl:sl||null,target:tgt||null,product:el("ex-prod").value,paper:A.paperMode,status:"FILLED",time:new Date().toLocaleTimeString(),value:orderValue};
+    const side=el("ex-side").value,orderType=el("ex-type").value;
+    
+    // If DHAN connected, use DHAN API
+    if(A.broker==="dhan"&&A.connected&&!A.paperMode){
+      dhanPlaceOrder(sym,qty,price,orderType==="LIMIT"?"LIMIT":"MARKET",side);
+      el("ex-sym").value=el("ex-qty").value=el("ex-price").value=el("ex-sl").value=el("ex-tgt").value="";
+      return;
+    }
+    
+    // Paper/simulation mode
+    const order={id:Date.now(),symbol:sym,side,type:orderType,qty,price,sl:sl||null,target:tgt||null,product:el("ex-prod").value,paper:A.paperMode,status:"FILLED",time:new Date().toLocaleTimeString(),value:orderValue};
     A.orders.unshift(order);
-    localStorage.setItem("v4_ord",JSON.stringify(A.orders));
-    if(db)ls.set("orders",A.orders).catch(e=>console.warn("IndexedDB save failed:",e));
+    saveData("v4_ord",A.orders);
     backupData();
     renderOrderBook();
     addLog("TRADE",`${A.paperMode?"[PAPER]":""} ${order.side} ${qty}×${sym} @ ${price||"MKT"}`);
@@ -2372,6 +2385,15 @@ function connectBroker(){
   try{
     const key=el("conn-key").value.trim(),sec=el("conn-sec").value.trim();
     if(!key||!sec){showErr("conn-err","Both fields required.");return;}
+    
+    // DHAN-specific authentication
+    if(A.broker==="dhan"){
+      dhanConfig.clientID=key;
+      dhanConfig.token=sec;
+      A.dhanAuth={clientID:key,token:sec,authenticated:true};
+      saveData("v4_dhan_auth",A.dhanAuth);
+    }
+    
     A.connected=true;
     saveData("v4_broker_key",key);
     saveData("v4_broker_sec",sec);
@@ -2383,6 +2405,9 @@ function connectBroker(){
     updateDashboard();sendTg(`✅ ${brokerName()} connected`);
     toast(`✅ ${brokerName()} connected`,"var(--accent)");
     renderHealthComponents();
+    
+    // Sync portfolio if DHAN
+    if(A.broker==="dhan")syncDhanPortfolio();
   }catch(e){
     addLog("ERROR","Broker connection failed: "+e.message);
     toast("❌ Connection failed","var(--danger)");
@@ -2475,6 +2500,182 @@ Context: Broker=${A.broker||"None"} | Strategy=${A.activeStrategy?.name||"None"}
     addLog("ERROR","Chat failed: "+e.message);
   }
   btn.disabled=false;el("chat-msgs").scrollTop=el("chat-msgs").scrollHeight;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DHAN BROKER API INTEGRATION
+═══════════════════════════════════════════════════════════ */
+const dhanConfig={baseURL:"https://api.dhan.co/v2",clientID:"",token:""};
+const dhanBreaker=new CircuitBreaker(4,120000); // 4 failures, 120s timeout
+
+async function dhanRequest(endpoint,method="GET",body=null){
+  return dhanBreaker.call(async()=>{
+    const url=dhanConfig.baseURL+endpoint;
+    const opts={method,headers:{"Content-Type":"application/json","Authorization":`Bearer ${dhanConfig.token}`,"Client-ID":dhanConfig.clientID}};
+    if(body)opts.body=JSON.stringify(body);
+    
+    const res=await Promise.race([fetch(url,opts),new Promise((_,r)=>setTimeout(()=>r(new Error("DHAN timeout")),10000))]);
+    if(!res.ok)throw new Error(`DHAN error ${res.status}: ${res.statusText}`);
+    const data=await res.json();
+    if(data.status!=="success"&&data.status!=="ok")throw new Error(data.message||"DHAN API error");
+    return data.data||data;
+  },null);
+}
+
+async function dhanAuth(){
+  try{
+    const clientID=el("dhan-cid")?.value.trim();
+    const apiKey=el("dhan-key")?.value.trim();
+    if(!clientID||!apiKey){toast("❌ DHAN Client ID & API Key required","var(--danger)");return;}
+    
+    // Validate with DHAN API
+    const loginResp=await fetch(`${dhanConfig.baseURL}/user/login`,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({clientID,secretKey:apiKey})
+    });
+    const loginData=await loginResp.json();
+    if(!loginData.data?.authToken)throw new Error("DHAN authentication failed");
+    
+    dhanConfig.clientID=clientID;
+    dhanConfig.token=loginData.data.authToken;
+    A.dhanAuth={clientID,token:dhanConfig.token,authenticated:true};
+    saveData("v4_dhan_auth",A.dhanAuth);
+    
+    addLog("SUCCESS","✅ DHAN authenticated");
+    toast("✅ DHAN auth success","var(--accent)");
+    return true;
+  }catch(e){
+    addLog("ERROR","DHAN auth failed: "+e.message);
+    toast("❌ DHAN auth failed: "+e.message,"var(--danger)");
+    return false;
+  }
+}
+
+async function dhanPlaceOrder(symbol,qty,price,orderType="MARKET",side="BUY"){
+  try{
+    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
+    if(!validateSymbol(symbol)||!validateQuantity(qty)||!validatePrice(price))throw new Error("Invalid order parameters");
+    
+    const payload={
+      symbol,
+      quantity:qty,
+      price:orderType==="LIMIT"?price:0,
+      orderType,
+      side,
+      exchange:"NSE",
+      productType:"MIS",
+      orderValidityType:"GFD",
+      icebergQty:0,
+      isAMO:false
+    };
+    
+    const resp=await dhanRequest("/orders/place","POST",payload);
+    if(!resp.orderId)throw new Error("No order ID returned");
+    
+    const order={id:resp.orderId,symbol,qty,price,side,type:orderType,status:"PENDING",timestamp:new Date().toLocaleString(),rsp:resp};
+    A.orders.unshift(order);
+    saveData("v4_ord",A.orders);
+    
+    addLog("TRADE",`✅ DHAN order: ${side} ${qty}×${symbol}`);
+    sendTg(`🔔 DHAN Order: ${side} ${qty}×${symbol} @ ₹${price}`);
+    return resp.orderId;
+  }catch(e){
+    addLog("ERROR","DHAN order failed: "+e.message);
+    toast("❌ "+e.message,"var(--danger)");
+    return null;
+  }
+}
+
+async function dhanModifyOrder(orderId,qty,price){
+  try{
+    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
+    const resp=await dhanRequest(`/orders/${orderId}/modify","PUT",{quantity:qty,price});
+    addLog("INFO",`✅ DHAN order ${orderId} modified`);
+    toast("✅ Order modified","var(--accent)");
+    return resp;
+  }catch(e){
+    addLog("ERROR","DHAN modify failed: "+e.message);
+    toast("❌ Modify failed","var(--danger)");
+    return null;
+  }
+}
+
+async function dhanCancelOrder(orderId){
+  try{
+    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
+    const resp=await dhanRequest(`/orders/${orderId}/cancel`,"DELETE");
+    A.orders=A.orders.filter(o=>o.id!==orderId);
+    saveData("v4_ord",A.orders);
+    addLog("INFO",`✅ DHAN order ${orderId} cancelled`);
+    toast("✅ Order cancelled","var(--accent)");
+    return resp;
+  }catch(e){
+    addLog("ERROR","DHAN cancel failed: "+e.message);
+    toast("❌ Cancel failed","var(--danger)");
+    return null;
+  }
+}
+
+async function dhanGetHoldings(){
+  try{
+    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
+    const resp=await dhanRequest("/holdings");
+    if(!Array.isArray(resp)||!resp.length)return [];
+    return resp.map(h=>({symbol:h.isin,qty:h.quantity,avgCost:h.costPrice,value:h.totalValue,sector:"",exchange:h.exchange}));
+  }catch(e){
+    addLog("ERROR","DHAN holdings fetch failed: "+e.message);
+    return [];
+  }
+}
+
+async function dhanGetPositions(){
+  try{
+    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
+    const resp=await dhanRequest("/positions");
+    if(!Array.isArray(resp)||!resp.length)return [];
+    return resp.map(p=>({symbol:p.symbol,qty:p.quantity,avgPrice:p.avgPrice,lastPrice:p.lastPrice,pnl:p.pnl,pnlPct:(p.pnl/(p.avgPrice*p.quantity)*100).toFixed(2)}));
+  }catch(e){
+    addLog("ERROR","DHAN positions fetch failed: "+e.message);
+    return [];
+  }
+}
+
+async function dhanGetOrders(){
+  try{
+    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
+    const resp=await dhanRequest("/orders");
+    if(!Array.isArray(resp))return [];
+    return resp.map(o=>({id:o.orderId,symbol:o.symbol,qty:o.quantity,price:o.price,status:o.orderStatus,type:o.orderType,side:o.side,exchange:o.exchange,timestamp:o.createdAt}));
+  }catch(e){
+    addLog("ERROR","DHAN orders fetch failed: "+e.message);
+    return [];
+  }
+}
+
+async function dhanGetAccount(){
+  try{
+    if(!dhanConfig.token)throw new Error("DHAN not authenticated");
+    const resp=await dhanRequest("/account");
+    return{accountID:resp.accountId,balance:resp.cashBalance,equity:resp.equity,margin:resp.marginUsed,marginAvailable:resp.marginAvailable,totalValue:resp.totalValue};
+  }catch(e){
+    addLog("ERROR","DHAN account fetch failed: "+e.message);
+    return null;
+  }
+}
+
+async function syncDhanPortfolio(){
+  try{
+    if(!dhanConfig.token)return;
+    const holdings=await dhanGetHoldings();
+    if(holdings.length){
+      A.portfolio=holdings;
+      saveData("v4_pf",A.portfolio);
+      addLog("INFO",`✅ DHAN portfolio synced: ${holdings.length} holdings`);
+    }
+  }catch(e){
+    addLog("ERROR","DHAN sync failed: "+e.message);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════
