@@ -6,4 +6,4 @@ python-engineio==4.7.1
 requests==2.31.0
 python-dotenv==1.0.0
 gunicorn==21.2.0
-dhanhq==0.2.0
+dhanhq==2.0.2
