@@ -43,11 +43,17 @@ user_subscriptions = {}
 @app.route('/')
 def index():
     """Serve main HTML file"""
-    return app.send_static_file('algodesk-v4.html')
+    return app.send_static_file('algodesk-v5.html')
 
-@app.route('/algodesk-v4.html')
-def serve_html():
-    """Serve main HTML file"""
+@app.route('/algodesk-v5.html')
+def serve_v5_html():
+    """Serve v5 HTML file"""
+    return app.send_static_file('algodesk-v5.html')
+
+@app.route('/algodesk-v5-auth.html')
+def serve_v5_auth_html():
+    """Serve v5 auth HTML file"""
+    return app.send_static_file('algodesk-v5-auth.html')
     return app.send_static_file('algodesk-v4.html')
 
 @app.route('/TESTING_GUIDE.md')
@@ -380,7 +386,7 @@ def health():
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
         'connected_clients': len(connected_clients),
-        'server': 'AlgoDESK v4 Backend',
+        'server': 'AlgoDESK v5 Backend',
         'version': '1.0.0'
     })
 
@@ -421,7 +427,7 @@ def server_error(e):
 if __name__ == '__main__':
     print("""
     ╔════════════════════════════════════════════════════════════╗
-    ║          AlgoDESK v4 - Backend Server                      ║
+    ║          AlgoDESK v5 - Backend Server                      ║
     ║          DHAN API + WebSocket Integration                  ║
     ╚════════════════════════════════════════════════════════════╝
     """)
